@@ -5,27 +5,39 @@ const { uploadFile } = require('../utils/cloudinary');
 const createPost = async (req, res) => {
   const form = formidable({ multiples: true });
 
-  form.on('file', (name, file) => {
-    console.log(name);
-    console.log(file.path);
-    uploadFile(file.path);
-  });
+  // form.on('file', (name, file) => {
+  //   console.log(name);
+  //   console.log(file.path);
+  // });
 
   form.parse(req, (err, fields, files) => {
     if (err) {
       next(err);
       return;
     }
+    // TODO: validation
+    uploadFile(files.image.path, async (imageUrl) => {
+      const {
+        description,
+        location
+      } = fields;
 
-    const {
-      description,
-      location
-    } = fields;
+      const creatorId = req.userId;
+      const createdAt = new Date().toUTCString();
 
-    const cretorId = req.userId;
-    const createdAt = new Date().toUTCString();
-    console.log(createdAt);
-    res.json({ fields, files });
+      try {
+        const post = new Post({ description, imageUrl, createdAt, location, creatorId });
+        const postObj = await post.save();
+        res.status(201).json(postObj._id);
+      } catch (error) {
+        console.log(error);
+        res
+          .status(400)
+          .json({
+          error: "error"
+        });
+      }
+    });
   });
 };
 

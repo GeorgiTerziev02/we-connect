@@ -11,15 +11,14 @@ cloudinary.config({
 });
 
 // TODO: Add file validation check
-const uploadFile = (filePath) => {
+const uploadFile = (filePath, callback) => {
     cloudinary.uploader.upload(filePath, (err, result) => {
         if (err) {
             console.error(err);
             return;
         }
-        console.log(result);
 
-        return result.url;
+        callback(result.url);
     }); 
 };
 
