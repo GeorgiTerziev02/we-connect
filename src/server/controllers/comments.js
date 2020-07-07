@@ -1,33 +1,32 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
-const createComment = async (req, res) => {
-    const postId = req.params.id;
-
+const createComment = async (postId, content, creatorId) => {
     try {
-        await Post.findById(postId);
+        const post = await Post.findById(postId);
+        if (!post) {
+            throw new Error("Invalid post id!");
+        }
     } catch (error) {
-        res
-            .status(400)
-            .json({
-                error: "Invalid post id!"
-            })
+        console.error(error);
+        return {
+            error: "Invalid post id!"
+        };
     }
-    
-    const {
-        content
-    } = req.body;
+
+    if (!content) {
+        return {
+            error: "Comment content is required"
+        }
+    }
 
     if (content.length > 1000) {
-        return res
-            .status(400)
-            .json({
+        return {
                 error: "Comment content length should be less or equal to 1000 symbols!"
-            });
+            };
     }
 
     const createdAt = new Date().toUTCString();
-    const creatorId = req.userId;
 
     try {
         const comment = new Comment({ content, createdAt, postId, creatorId });
@@ -36,18 +35,14 @@ const createComment = async (req, res) => {
         const commentId = commentObj._id;
         await Post.findByIdAndUpdate(postId, { $push: { comments: commentId } });
 
-        return res
-            .status(201)
-            .json({
+        return {
                 commentId
-            });
+            };
     } catch (err) {
         console.error(err);
-        return res
-            .status(400)
-            .json({
-                error: "Error occured while updating the database!"
-            })
+        return {
+            error: "Error occured while updating the database!"
+        };
     }
 }
 
