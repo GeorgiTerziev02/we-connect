@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', userRouter);
-app.use('/api', postRouter);
+app.use('/api/posts', postRouter);
 
 app.use('*', (req, res) => {
     res

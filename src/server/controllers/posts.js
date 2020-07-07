@@ -19,18 +19,18 @@ const createPost = async (req, res) => {
 
     if (!description || description.length > 2000) {
       return res
-      .status(400)
-      .json({
-        error: "Description is required and should be less than 2000 symbols!"
-      });
+        .status(400)
+        .json({
+          error: "Description is required and should be less than 2000 symbols!"
+        });
     }
 
     if (location && location.length > 100) {
       return res
-      .status(400)
-      .json({
-        error: "Location should be less than 100 symbols!"
-      });
+        .status(400)
+        .json({
+          error: "Location should be less than 100 symbols!"
+        });
     }
 
     if (!isImageValid(files.image.type)) {
@@ -48,7 +48,7 @@ const createPost = async (req, res) => {
       try {
         const post = new Post({ description, imageUrl, createdAt, location, creatorId });
         const postObj = await post.save();
-        
+
         const postId = postObj._id;
         await User.findByIdAndUpdate(creatorId, { $push: { posts: postId } });
 
@@ -58,13 +58,25 @@ const createPost = async (req, res) => {
         res
           .status(400)
           .json({
-          error: "Error occured while updating the database! Try again!"
-        });
+            error: "Error occured while updating the database! Try again!"
+          });
       }
     });
   });
 };
 
+const getPostsByUserId = async (userId) => {
+  try {
+    return await User.findById(userId).select('-password').populate('posts');
+  } catch (err) {
+    console.error(err);
+    return {
+      error: "Invalid user id!"
+    };
+  }
+};
+
 module.exports = {
-  createPost
+  createPost,
+  getPostsByUserId
 };

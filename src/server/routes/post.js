@@ -1,10 +1,18 @@
 const { Router } = require('express');
 const { authenticate } = require('../utils/auth');
-const { createPost } = require('../controllers/posts');
+const { createPost, getPostsByUserId } = require('../controllers/posts');
 
 const router = Router();
 
-router.post('/posts', authenticate, async (req, res) => {
+router.get('/user/:id', authenticate, async (req, res) => {
+    const userId = req.params.id;
+    const posts = await getPostsByUserId(userId);
+    return res
+        .status(200)
+        .json(posts);
+});
+
+router.post('/', authenticate, async (req, res) => {
     await createPost(req, res);
 })
 
