@@ -32,7 +32,7 @@ const uploadFile = (filePath, callback) => {
     cloudinary.uploader.upload(filePath, (err, result) => {
         if (err) {
             console.error(err);
-            return;
+            return false;
         }
         
         // TODO: remove part of the url that is the same for optimization

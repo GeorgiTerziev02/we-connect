@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const formidable = require('formidable');
 const { authenticate } = require('../utils/auth');
 const { createPost, getPostsByUserId, getPostById } = require('../controllers/posts');
 
@@ -19,8 +20,34 @@ router.get('/user/:id', authenticate, async (req, res) => {
         .json(result);
 });
 
-router.post('/', authenticate, async (req, res) => {
-    await createPost(req, res);
+router.post('/', authenticate, (req, res, next) => {
+    const form = formidable({ multiples: true });
+
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            next('1', err);
+            return;
+        }
+
+        const {
+            description,
+            location
+        } = fields;
+        const userId = req.userId;
+
+        createPost(description, location, userId, files.image, (result) => {
+            if (result.error) {
+                return res
+                    .status(400)
+                    .json(result);
+            }
+    
+            return res
+                .status(201)
+                .json(result);
+        });
+    });
+    //await createPost(req, res);
 })
 
 router.get('/:id', authenticate, async (req, res) => {
