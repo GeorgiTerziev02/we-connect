@@ -20,7 +20,7 @@ const validImageTypes = [
 ];
 
 const isImageValid = (imageType) => {
-    if (validImageTypes.includes(imageType.toString())) {
+    if (validImageTypes.includes(imageType)) {
         return true;
     } 
 
@@ -34,8 +34,8 @@ const uploadFile = (filePath, callback) => {
             console.error(err);
             return;
         }
-
-        callback(result.url);
+        
+        callback(result.secure_url);
     }); 
 };
 

@@ -76,7 +76,19 @@ const getPostsByUserId = async (userId) => {
   }
 };
 
+const getPostById = async(postId) => {
+  try {
+    return await Post.findById(postId);
+  } catch (err) {
+    console.error(err);
+    return {
+      error: "Invalid post id!"
+    }
+  }
+}
+
 module.exports = {
   createPost,
-  getPostsByUserId
+  getPostById,
+  getPostsByUserId,
 };
