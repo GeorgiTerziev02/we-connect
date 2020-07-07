@@ -1,5 +1,4 @@
 const env = process.env.NODE_ENV;
-console.log(env);
 const config = require('../config/config')[env];
 
 const cloudinary = require('cloudinary').v2;
@@ -9,6 +8,24 @@ cloudinary.config({
     api_key: config.cloudinaryApiKey,
     api_secret: config.cloudinaryApiSecret
 });
+
+const validImageTypes = [
+    "image/x-png",
+    "image/gif",
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/svg",
+];
+
+const isImageValid = (imageType) => {
+    if (validImageTypes.includes(imageType.toString())) {
+        return true;
+    } 
+
+    return false;
+};
 
 // TODO: Add file validation check
 const uploadFile = (filePath, callback) => {
@@ -23,5 +40,6 @@ const uploadFile = (filePath, callback) => {
 };
 
 module.exports = {
-    uploadFile
+    uploadFile,
+    isImageValid
 };

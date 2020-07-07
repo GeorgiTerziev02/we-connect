@@ -15,6 +15,7 @@ const postSchema = new mongoose.Schema({
     },
     location: {
         type: String,
+        maxlength: 100,
         required: false
     },
     creatorId: {
