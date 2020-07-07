@@ -52,7 +52,7 @@ const createPost = async (req, res) => {
         const postId = postObj._id;
         await User.findByIdAndUpdate(creatorId, { $push: { posts: postId } });
 
-        res.status(201).json(postId);
+        res.status(201).json({postId});
       } catch (error) {
         console.log(error);
         res
@@ -67,7 +67,7 @@ const createPost = async (req, res) => {
 
 const getPostsByUserId = async (userId) => {
   try {
-    return await User.findById(userId).select('-password').populate('posts');
+    return await User.findById(userId).select('-password').populate('posts').lean();
   } catch (err) {
     console.error(err);
     return {
@@ -78,7 +78,7 @@ const getPostsByUserId = async (userId) => {
 
 const getPostById = async(postId) => {
   try {
-    return await Post.findById(postId);
+    return await Post.findById(postId).lean();
   } catch (err) {
     console.error(err);
     return {

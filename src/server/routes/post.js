@@ -1,4 +1,4 @@
-const { Router, json } = require('express');
+const { Router } = require('express');
 const { authenticate } = require('../utils/auth');
 const { createPost, getPostsByUserId, getPostById } = require('../controllers/posts');
 
@@ -13,7 +13,7 @@ router.get('/user/:id', authenticate, async (req, res) => {
             .status(400)
             .json(result);
     }
-    
+
     return res
         .status(200)
         .json(result);

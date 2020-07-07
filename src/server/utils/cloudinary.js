@@ -35,6 +35,7 @@ const uploadFile = (filePath, callback) => {
             return;
         }
         
+        // TODO: remove part of the url that is the same for optimization
         callback(result.secure_url);
     }); 
 };
