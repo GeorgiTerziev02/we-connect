@@ -1,6 +1,6 @@
-const { Router, json } = require('express');
+const { Router } = require('express');
 const { authenticate } = require('../utils/auth');
-const { createComment } = require('../controllers/comments');
+const { createComment, deleteCommentById } = require('../controllers/comments');
 
 const router = Router();
 
@@ -23,5 +23,22 @@ router.post('/:id', authenticate, async (req, res) => {
         .status(201)
         .json(result);
 })
+
+router.delete('/:id', authenticate, async (req, res) => {
+    const userId = req.userId;
+    const commentId = req.params.id;
+
+    const result = await deleteCommentById(commentId, userId);
+
+    if (result.error) {
+        return res
+            .status(400)
+            .json(result);
+    }
+
+    return res
+        .status(204)
+        .json(result);
+});
 
 module.exports = router;

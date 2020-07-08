@@ -22,8 +22,8 @@ const createComment = async (postId, content, creatorId) => {
 
     if (content.length > 1000) {
         return {
-                error: "Comment content length should be less or equal to 1000 symbols!"
-            };
+            error: "Comment content length should be less or equal to 1000 symbols!"
+        };
     }
 
     const createdAt = new Date().toUTCString();
@@ -36,8 +36,8 @@ const createComment = async (postId, content, creatorId) => {
         await Post.findByIdAndUpdate(postId, { $push: { comments: commentId } });
 
         return {
-                commentId
-            };
+            commentId
+        };
     } catch (err) {
         console.error(err);
         return {
@@ -46,6 +46,37 @@ const createComment = async (postId, content, creatorId) => {
     }
 }
 
+const deleteCommentById = async (commentId, userId) => {
+    const comment = await Comment.findById(commentId).lean();
+
+    if (!comment) {
+        return {
+            error: "Invalid commentId!"
+        }
+    }
+
+    if (JSON.stringify(userId) !== JSON.stringify(comment.creatorId)) {
+        return {
+            error: "Given userId is not the creator of the comment!"
+        };
+    }
+
+    try {
+        await Comment.findByIdAndDelete(commentId);
+        await Post.findByIdAndUpdate(comment.postId, { $pullAll: { comments: [commentId] } });
+
+        return {
+            message: "Successfully deleted!"
+        };
+    } catch (err) {
+        console.error(err);
+        return {
+            error: "Error occured while updating the database!"
+        };
+    }
+};
+
 module.exports = {
-    createComment
+    createComment,
+    deleteCommentById
 }

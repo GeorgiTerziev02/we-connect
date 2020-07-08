@@ -7,7 +7,7 @@ const commentSchema = new mongoose.Schema({
         maxlength: 1000
     },
     createdAt: {
-        type: Date,
+        type: String,
         required: true
     },
     postId: {
