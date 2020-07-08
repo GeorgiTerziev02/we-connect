@@ -94,8 +94,38 @@ const getPostById = async (postId) => {
   }
 }
 
+const likePost = async (postId, userId) => {
+  const post = await Post.findById(postId).lean();
+  if (!post) {
+    return {
+      error: "Invalid postId!"
+    }
+  }
+
+  try {
+    if (JSON.stringify(post.likes).includes(userId.toString())) {
+      await Post.findByIdAndUpdate(postId, { $pullAll: {likes: [userId] } });
+      return {
+        message: "disliked"
+      }
+    } else {
+      await Post.findByIdAndUpdate(postId, { $push: { likes: userId } });
+  
+      return {
+        message: "liked"
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    return {
+      error: "Error occured while updating the database!"
+    }
+  }
+}
+
 module.exports = {
   createPost,
   getPostById,
   getPostsByUserId,
+  likePost
 };

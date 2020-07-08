@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const formidable = require('formidable');
 const { authenticate } = require('../utils/auth');
-const { createPost, getPostsByUserId, getPostById } = require('../controllers/posts');
+const { createPost, getPostsByUserId, getPostById, likePost } = require('../controllers/posts');
 
 const router = Router();
 
@@ -62,6 +62,23 @@ router.get('/:id', authenticate, async (req, res) => {
 
     return res
         .status(200)
+        .json(result);
+});
+
+router.post('/like/:id', authenticate, async (req, res) => {
+    const postId = req.params.id;
+    const userId = req.userId;
+
+    const result = await likePost(postId, userId);
+
+    if (result.error) {
+        return res
+            .status(400)
+            .json(result);
+    }
+
+    return res
+        .status(201)
         .json(result);
 });
 
