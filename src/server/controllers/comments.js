@@ -46,6 +46,34 @@ const createComment = async (postId, content, creatorId) => {
     }
 }
 
+const updateCommentById = async (commentId, userId, content) => {
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+        return {
+            error: "Invalid commentId!"
+        }
+    }
+
+    if (JSON.stringify(comment.creatorId) !== JSON.stringify(userId)) {
+        return {
+            error: "Given userId is not the creator of the comment!"
+        }
+    }
+
+    try {
+        await Comment.findByIdAndUpdate(commentId, { content });
+        return {
+            message: "Successfully updated!"
+        }
+    } catch (err) {
+        console.error(err);
+        return {
+            error: "Error occured while updating the database!"
+        }
+    }
+}
+
 const deleteCommentById = async (commentId, userId) => {
     const comment = await Comment.findById(commentId).lean();
 
@@ -78,5 +106,6 @@ const deleteCommentById = async (commentId, userId) => {
 
 module.exports = {
     createComment,
+    updateCommentById,
     deleteCommentById
 }

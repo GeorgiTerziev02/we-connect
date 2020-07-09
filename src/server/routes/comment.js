@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { authenticate } = require('../utils/auth');
-const { createComment, deleteCommentById } = require('../controllers/comments');
+const { createComment, updateCommentById, deleteCommentById } = require('../controllers/comments');
 
 const router = Router();
 
@@ -20,6 +20,20 @@ router.post('/:id', authenticate, async (req, res) => {
     }
 
     return res
+        .status(201)
+        .json(result);
+});
+
+router.patch('/:id', authenticate, async (req, res) => {
+    const commentId = req.params.id;
+    const userId = req.userId;
+    const {
+        content
+    } = req.body;
+
+    const result = await updateCommentById(commentId, userId, content);
+
+    res
         .status(201)
         .json(result);
 })
