@@ -89,7 +89,7 @@ const updateCommentById = async (commentId, userId, content) => {
 const deleteCommentById = async (commentId, userId) => {
     const comment = await Comment.findById(commentId).populate('postId').lean();
 
-    if (!comment) {
+    if (!comment || comment.postId.isDeleted) {
         return {
             error: "Invalid commentId!"
         }

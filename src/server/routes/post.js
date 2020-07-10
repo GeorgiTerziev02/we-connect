@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const formidable = require('formidable');
 const { authenticate } = require('../utils/auth');
-const { createPost, getPostsByUserId, getPostById, likePost, deletePostById } = require('../controllers/posts');
+const { createPost, getPostsByUserId, getPostById, likePost, editPostById, deletePostById } = require('../controllers/posts');
 
 const router = Router();
 
@@ -54,6 +54,21 @@ router.post('/like/:id', authenticate, async (req, res) => {
 
     return res
         .status(result.error ? 400 : 201)
+        .json(result);
+});
+
+router.patch('/:id', authenticate, async (req, res) => {
+    const postId = req.params.id;
+    const userId = req.userId;
+    const {
+        description,
+        location
+    } = req.body;
+
+    const result = await editPostById(postId, userId, description, location);
+
+    res
+        .status(result.error ? 400 : 200)
         .json(result);
 });
 
