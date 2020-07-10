@@ -18,6 +18,11 @@ const postSchema = new mongoose.Schema({
         maxlength: 100,
         required: false
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
     creatorId: {
         type: 'ObjectId',
         required: true,

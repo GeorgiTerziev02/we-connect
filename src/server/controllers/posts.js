@@ -39,7 +39,7 @@ const createPost = (description, location, creatorId, image, callback) => {
     const createdAt = new Date().toUTCString();
 
     try {
-      const post = new Post({ description, imageUrl, createdAt, location, creatorId });
+      const post = new Post({ description, imageUrl, createdAt, isDeleted: false, location, creatorId });
       const postObj = await post.save();
 
       const postId = postObj._id;
@@ -58,7 +58,12 @@ const createPost = (description, location, creatorId, image, callback) => {
 
 const getPostsByUserId = async (userId) => {
   try {
-    const posts = await User.findById(userId).select('-password').populate('posts').lean();
+    const posts = await User.findById(userId).select('-password').populate({
+      path: 'posts',
+      match: {
+        isDeleted: false
+      }
+    }).lean();
     
     if (!posts) {
       return {
@@ -77,7 +82,7 @@ const getPostsByUserId = async (userId) => {
 
 const getPostById = async (postId) => {
   try {
-    const post = await Post.findById(postId).lean();
+    const post = await Post.findOne({_id: postId, isDeleted: false}).lean();
     if (!post) {
       return {
         error: "Invalid post id!"
@@ -97,7 +102,7 @@ const getPostById = async (postId) => {
 
 const likePost = async (postId, userId) => {
   const post = await Post.findById(postId).lean();
-  if (!post) {
+  if (!post || post.isDeleted) {
     return {
       error: "Invalid postId!"
     }
@@ -127,7 +132,7 @@ const likePost = async (postId, userId) => {
 const deletePostById = async (postId, userId) => {
   const post = await Post.findById(postId);
 
-  if (!post) {
+  if (!post || post.isDeleted) {
     return {
       error: "Invalid postId!"
     }
@@ -140,7 +145,7 @@ const deletePostById = async (postId, userId) => {
   }
 
   try {
-    // TODO: Is deleted?
+    await Post.findByIdAndUpdate(postId, {isDeleted: true});
     
     return {
       message: "Successfully deleted!"

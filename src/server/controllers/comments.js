@@ -4,7 +4,7 @@ const Post = require('../models/post');
 const createComment = async (postId, content, creatorId) => {
     try {
         const post = await Post.findById(postId);
-        if (!post) {
+        if (!post || post.isDeleted) {
             throw new Error("Invalid post id!");
         }
     } catch (error) {
@@ -48,7 +48,7 @@ const createComment = async (postId, content, creatorId) => {
 
 const updateCommentById = async (commentId, userId, content) => {
     const comment = await Comment.findById(commentId);
-
+    // TODO: Check post
     if (!comment) {
         return {
             error: "Invalid commentId!"
@@ -95,6 +95,7 @@ const deleteCommentById = async (commentId, userId) => {
         }
     }
 
+    // TODO: Post creator can delete comment
     if (JSON.stringify(userId) !== JSON.stringify(comment.creatorId)) {
         return {
             error: "Given userId is not the creator of the comment!"
