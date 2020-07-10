@@ -87,7 +87,7 @@ const updateCommentById = async (commentId, userId, content) => {
 }
 
 const deleteCommentById = async (commentId, userId) => {
-    const comment = await Comment.findById(commentId).lean();
+    const comment = await Comment.findById(commentId).populate('postId').lean();
 
     if (!comment) {
         return {
@@ -96,9 +96,10 @@ const deleteCommentById = async (commentId, userId) => {
     }
 
     // TODO: Post creator can delete comment
-    if (JSON.stringify(userId) !== JSON.stringify(comment.creatorId)) {
+    const userIdString = JSON.stringify(userId);
+    if (userIdString !== JSON.stringify(comment.creatorId) && userIdString !== JSON.stringify(comment.postId.creatorId)) {
         return {
-            error: "Given userId is not the creator of the comment!"
+            error: "Given userId is not the creator of the comment or the creator of the post!"
         };
     }
 
