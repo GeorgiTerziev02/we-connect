@@ -13,14 +13,8 @@ router.post('/:id', authenticate, async (req, res) => {
 
     const result = await createComment(postId, content, userId);
 
-    if (result.error) {
-        return res
-            .status(400)
-            .json(result);
-    }
-
     return res
-        .status(201)
+        .status(result.error ? 400 : 201)
         .json(result);
 });
 
@@ -34,7 +28,7 @@ router.patch('/:id', authenticate, async (req, res) => {
     const result = await updateCommentById(commentId, userId, content);
 
     res
-        .status(201)
+        .status(result.error ? 400 : 200)
         .json(result);
 })
 
@@ -44,14 +38,8 @@ router.delete('/:id', authenticate, async (req, res) => {
 
     const result = await deleteCommentById(commentId, userId);
 
-    if (result.error) {
-        return res
-            .status(400)
-            .json(result);
-    }
-
     return res
-        .status(204)
+        .status(result.error ? 400 : 204)
         .json(result);
 });
 

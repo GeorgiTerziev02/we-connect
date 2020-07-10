@@ -1,6 +1,7 @@
 const formidable = require('formidable');
 const Post = require('../models/post');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 const { uploadFile, isImageValid } = require('../utils/cloudinary');
 
 const createPost = (description, location, creatorId, image, callback) => {
@@ -123,9 +124,40 @@ const likePost = async (postId, userId) => {
   }
 }
 
+const deletePostById = async (postId, userId) => {
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return {
+      error: "Invalid postId!"
+    }
+  }
+
+  if (JSON.stringify(post.creatorId) !== JSON.stringify(userId)) {
+    return {
+      error: "Given userId is not the creator of the post!"
+    }
+  }
+
+  try {
+    // TODO: Is deleted?
+    
+    return {
+      message: "Successfully deleted!"
+    }
+  } catch (err) {
+    console.error(err);
+    return {
+      error: "Error occured while updating the database!"
+    }
+  }
+};
+
+
 module.exports = {
   createPost,
   getPostById,
   getPostsByUserId,
+  deletePostById,
   likePost
 };

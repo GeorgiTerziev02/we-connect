@@ -61,6 +61,18 @@ const updateCommentById = async (commentId, userId, content) => {
         }
     }
 
+    if (!content) {
+        return {
+            error: "Comment content is required"
+        }
+    }
+
+    if (content.length > 1000) {
+        return {
+            error: "Comment content length should be less or equal to 1000 symbols!"
+        };
+    }
+    
     try {
         await Comment.findByIdAndUpdate(commentId, { content });
         return {
