@@ -27,7 +27,6 @@ const isImageValid = (imageType) => {
     return false;
 };
 
-// TODO: Add file validation check
 const uploadFile = (filePath, callback) => {
     cloudinary.uploader.upload(filePath, (err, result) => {
         if (err) {

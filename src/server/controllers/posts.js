@@ -5,7 +5,7 @@ const { uploadFile, isImageValid } = require('../utils/cloudinary');
 const errorMessages = require('../constants/errorMessages');
 const responseMessages = require('../constants/responseMessages');
 
-const createPost = (description, location, creatorId, image, callback) => {
+const createPost = (description, location, creator, image, callback) => {
   if (!description || description.length > 2000) {
     return callback({
       error: errorMessages.descriptionRequired
@@ -40,11 +40,11 @@ const createPost = (description, location, creatorId, image, callback) => {
     const createdAt = new Date().toUTCString();
 
     try {
-      const post = new Post({ description, imageUrl, createdAt, isDeleted: false, location, creatorId });
+      const post = new Post({ description, imageUrl, createdAt, isDeleted: false, location, creator });
       const postObj = await post.save();
 
       const postId = postObj._id;
-      await User.findByIdAndUpdate(creatorId, { $push: { posts: postId } });
+      await User.findByIdAndUpdate(creator, { $push: { posts: postId } });
       return callback({
         postId
       });
@@ -139,7 +139,7 @@ const editPostById = async (postId, userId, description, location) => {
     }
   }
   
-  if (JSON.stringify(post.creatorId) !== JSON.stringify(userId)) {
+  if (JSON.stringify(post.creator) !== JSON.stringify(userId)) {
     return {
       error: errorMessages.userIdIsNotPostCreator
     } 
@@ -180,7 +180,7 @@ const deletePostById = async (postId, userId) => {
     }
   }
 
-  if (JSON.stringify(post.creatorId) !== JSON.stringify(userId)) {
+  if (JSON.stringify(post.creator) !== JSON.stringify(userId)) {
     return {
       error: errorMessages.userIdIsNotPostCreator
     }

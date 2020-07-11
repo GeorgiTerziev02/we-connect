@@ -23,7 +23,7 @@ const postSchema = new mongoose.Schema({
         default: false,
         required: true
     },
-    creatorId: {
+    creator: {
         type: 'ObjectId',
         required: true,
         ref: 'User'

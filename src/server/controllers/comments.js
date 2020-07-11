@@ -3,7 +3,7 @@ const Post = require('../models/post');
 const errorMessages = require('../constants/errorMessages');
 const responseMessages = require('../constants/responseMessages');
 
-const createComment = async (postId, content, creatorId) => {
+const createComment = async (postId, content, creator) => {
     try {
         const post = await Post.findById(postId);
         if (!post || post.isDeleted) {
@@ -31,7 +31,7 @@ const createComment = async (postId, content, creatorId) => {
     const createdAt = new Date().toUTCString();
 
     try {
-        const comment = new Comment({ content, createdAt, postId, creatorId });
+        const comment = new Comment({ content, createdAt, post: postId, creator });
         const commentObj = await comment.save();
 
         const commentId = commentObj._id;
@@ -49,15 +49,15 @@ const createComment = async (postId, content, creatorId) => {
 }
 
 const updateCommentById = async (commentId, userId, content) => {
-    const comment = await Comment.findById(commentId);
-    // TODO: Check post
-    if (!comment) {
+    const comment = await Comment.findById(commentId).populate('post');
+    
+    if (!comment || comment.post.isDeleted) {
         return {
             error: errorMessages.invalidCommentId
         }
     }
 
-    if (JSON.stringify(comment.creatorId) !== JSON.stringify(userId)) {
+    if (JSON.stringify(comment.creator) !== JSON.stringify(userId)) {
         return {
             error: errorMessages.userIdIsNotCommentCreator
         }
@@ -89,17 +89,16 @@ const updateCommentById = async (commentId, userId, content) => {
 }
 
 const deleteCommentById = async (commentId, userId) => {
-    const comment = await Comment.findById(commentId).populate('postId').lean();
+    const comment = await Comment.findById(commentId).populate('post').lean();
 
-    if (!comment || comment.postId.isDeleted) {
+    if (!comment || comment.post.isDeleted) {
         return {
             error: errorMessages.invalidCommentId
         }
     }
 
-    // TODO: Post creator can delete comment
     const userIdString = JSON.stringify(userId);
-    if (userIdString !== JSON.stringify(comment.creatorId) && userIdString !== JSON.stringify(comment.postId.creatorId)) {
+    if (userIdString !== JSON.stringify(comment.creator) && userIdString !== JSON.stringify(comment.post.creator)) {
         return {
             error: errorMessages.userIdNotCreatorPostAndComment
         };
@@ -107,7 +106,7 @@ const deleteCommentById = async (commentId, userId) => {
 
     try {
         await Comment.findByIdAndDelete(commentId);
-        await Post.findByIdAndUpdate(comment.postId, { $pullAll: { comments: [commentId] } });
+        await Post.findByIdAndUpdate(comment.post, { $pullAll: { comments: [commentId] } });
 
         return {
             message: responseMessages.successfulDelete
