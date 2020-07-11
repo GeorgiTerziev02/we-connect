@@ -2,36 +2,38 @@ const formidable = require('formidable');
 const Post = require('../models/post');
 const User = require('../models/user');
 const { uploadFile, isImageValid } = require('../utils/cloudinary');
+const errorMessages = require('../constants/errorMessages');
+const responseMessages = require('../constants/responseMessages');
 
 const createPost = (description, location, creatorId, image, callback) => {
   if (!description || description.length > 2000) {
     return callback({
-      error: "Description is required and should be less than 2000 symbols!"
+      error: errorMessages.descriptionRequired
     });
   }
 
   if (location && location.length > 100) {
     return callback({
-      error: "Location should be less than 100 symbols!"
+      error: errorMessages.locationLength
     });
   }
 
   if (!image) {
     return callback({
-      error: "Image is required!"
+      error: errorMessages.imageRequired
     });
   }
 
   if (!isImageValid(image.type)) {
     return callback({
-      error: "The given file is not an image!"
+      error: errorMessages.fileNotAnImage
     });
   }
 
   uploadFile(image.path, async (imageUrl) => {
     if (imageUrl === false) {
       return callback({
-        error: "Error occured while uploading the image!"
+        error: errorMessages.uploadingError
       });
     }
 
@@ -49,7 +51,7 @@ const createPost = (description, location, creatorId, image, callback) => {
     } catch (error) {
       console.error(error);
       return callback({
-        error: "Error occured while updating the database! Try again!"
+        error: errorMessages.databaseUpdateError
       });
     }
   });
@@ -66,7 +68,7 @@ const getPostsByUserId = async (userId) => {
     
     if (!posts) {
       return {
-        error: "Invalid user id!"
+        error: errorMessages.invalidUserId
       };
     }
 
@@ -74,7 +76,7 @@ const getPostsByUserId = async (userId) => {
   } catch (err) {
     console.error(err);
     return {
-      error: "Invalid user id!"
+      error: errorMessages.invalidUserId
     };
   }
 };
@@ -84,7 +86,7 @@ const getPostById = async (postId) => {
     const post = await Post.findOne({_id: postId, isDeleted: false}).lean();
     if (!post) {
       return {
-        error: "Invalid post id!"
+        error: errorMessages.invalidPostId
       }
     }
 
@@ -94,7 +96,7 @@ const getPostById = async (postId) => {
   } catch (err) {
     console.error(err);
     return {
-      error: "Invalid post id!"
+      error: errorMessages.invalidPostId
     }
   }
 }
@@ -103,7 +105,7 @@ const likePost = async (postId, userId) => {
   const post = await Post.findById(postId).lean();
   if (!post || post.isDeleted) {
     return {
-      error: "Invalid postId!"
+      error: errorMessages.invalidPostId
     }
   }
 
@@ -111,19 +113,19 @@ const likePost = async (postId, userId) => {
     if (JSON.stringify(post.likes).includes(userId.toString())) {
       await Post.findByIdAndUpdate(postId, { $pullAll: {likes: [userId] } });
       return {
-        message: "disliked"
+        message: responseMessages.disliked
       }
     } else {
       await Post.findByIdAndUpdate(postId, { $push: { likes: userId } });
   
       return {
-        message: "liked"
+        message: responseMessages.liked
       }
     }
   } catch (err) {
     console.error(err);
     return {
-      error: "Error occured while updating the database!"
+      error: errorMessages.databaseUpdateError
     }
   }
 }
@@ -133,25 +135,25 @@ const editPostById = async (postId, userId, description, location) => {
 
   if (!post || post.isDeleted) {
     return {
-      error: "Invalid postId!"
+      error: errorMessages.invalidPostId
     }
   }
   
   if (JSON.stringify(post.creatorId) !== JSON.stringify(userId)) {
     return {
-      error: "Given userId is not the creator of the post!"
+      error: errorMessages.userIdIsNotPostCreator
     } 
   }
 
   if (!description || description.length > 2000) {
     return callback({
-      error: "Description is required and should be less than 2000 symbols!"
+      error: errorMessages.descriptionRequired
     });
   }
 
   if (location && location.length > 100) {
     return callback({
-      error: "Location should be less than 100 symbols!"
+      error: errorMessages.locationLength
     });
   }
 
@@ -159,12 +161,12 @@ const editPostById = async (postId, userId, description, location) => {
     await Post.findByIdAndUpdate(postId, { description, location });
     
     return {
-      message: "Successfully updated!"
+      message: responseMessages.successfulUpdate
     }
   } catch (err) {
     console.error(err);
     return {
-      error: "Error occured while updating the database!"
+      error: errorMessages.databaseUpdateError
     }
   }
 }
@@ -174,13 +176,13 @@ const deletePostById = async (postId, userId) => {
 
   if (!post || post.isDeleted) {
     return {
-      error: "Invalid postId!"
+      error: errorMessages.invalidPostId
     }
   }
 
   if (JSON.stringify(post.creatorId) !== JSON.stringify(userId)) {
     return {
-      error: "Given userId is not the creator of the post!"
+      error: errorMessages.userIdIsNotPostCreator
     }
   }
 
@@ -188,12 +190,12 @@ const deletePostById = async (postId, userId) => {
     await Post.findByIdAndUpdate(postId, {isDeleted: true});
     
     return {
-      message: "Successfully deleted!"
+      message: responseMessages.successfulDelete
     }
   } catch (err) {
     console.error(err);
     return {
-      error: "Error occured while updating the database!"
+      error: errorMessages.databaseUpdateError
     }
   }
 };

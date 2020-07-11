@@ -3,6 +3,7 @@ const { Router } = require('express');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const errorMessages = require('../constants/errorMessages');
 const config = require('../config/config')[env];
 
 const router = Router();
@@ -26,7 +27,7 @@ router.post('/register', async (req, res) => {
             return res
                 .status(400)
                 .json({
-                    message: "User with this username already exists!"
+                    error: errorMessages.userExists
                 });
         }
 
@@ -52,7 +53,7 @@ router.post('/register', async (req, res) => {
         return res
             .status(400)
             .json({
-                message: "Error occured!"
+                error: errorMessages.databaseUpdateError
             });
     }
 })
@@ -70,7 +71,7 @@ router.post('/login', async (req, res) => {
             return res
                 .status(404)
                 .json({
-                    message: "User not found!"
+                    error: errorMessages.userNotFound
                 });
         }
 
@@ -91,7 +92,7 @@ router.post('/login', async (req, res) => {
             return res
                 .status(400)
                 .json({
-                    message: "Wrong credential"
+                    error: errorMessages.wrongCredentials
                 });
         }
 
@@ -100,7 +101,7 @@ router.post('/login', async (req, res) => {
         return res
             .status(400)
             .json({
-                message: "Wrong credentials!"
+                error: errorMessages.wrongCredentials
             });
     }
 });

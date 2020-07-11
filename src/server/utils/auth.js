@@ -1,5 +1,6 @@
 const env = process.env.NODE_ENV;
 const jwt = require('jsonwebtoken');
+const errorMessages = require('../constants/errorMessages');
 const config = require('../config/config')[env];
 
 const authenticate = (req, res, next) => {
@@ -9,7 +10,7 @@ const authenticate = (req, res, next) => {
         return res
             .status(401)
             .json({
-            error: "Missing authorization header"
+            error: errorMessages.missingAuth
         });
     }
 
@@ -24,7 +25,7 @@ const authenticate = (req, res, next) => {
         return res
             .status(401)
             .json({
-            error: "Not authenticated"
+            error: errorMessages.notAuthenticated
         });
     }
 };

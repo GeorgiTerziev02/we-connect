@@ -1,28 +1,30 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const errorMessages = require('../constants/errorMessages');
+const responseMessages = require('../constants/responseMessages');
 
 const createComment = async (postId, content, creatorId) => {
     try {
         const post = await Post.findById(postId);
         if (!post || post.isDeleted) {
-            throw new Error("Invalid post id!");
+            throw new Error(errorMessages.invalidPostId);
         }
     } catch (error) {
         console.error(error);
         return {
-            error: "Invalid post id!"
+            error: errorMessages.invalidPostId
         };
     }
 
     if (!content) {
         return {
-            error: "Comment content is required"
+            error: errorMessages.commentContentRequired
         }
     }
 
     if (content.length > 1000) {
         return {
-            error: "Comment content length should be less or equal to 1000 symbols!"
+            error: errorMessages.commentLength
         };
     }
 
@@ -41,7 +43,7 @@ const createComment = async (postId, content, creatorId) => {
     } catch (err) {
         console.error(err);
         return {
-            error: "Error occured while updating the database!"
+            error: errorMessages.databaseUpdateError
         };
     }
 }
@@ -51,37 +53,37 @@ const updateCommentById = async (commentId, userId, content) => {
     // TODO: Check post
     if (!comment) {
         return {
-            error: "Invalid commentId!"
+            error: errorMessages.invalidCommentId
         }
     }
 
     if (JSON.stringify(comment.creatorId) !== JSON.stringify(userId)) {
         return {
-            error: "Given userId is not the creator of the comment!"
+            error: errorMessages.userIdIsNotCommentCreator
         }
     }
 
     if (!content) {
         return {
-            error: "Comment content is required"
+            error: errorMessages.commentContentRequired
         }
     }
 
     if (content.length > 1000) {
         return {
-            error: "Comment content length should be less or equal to 1000 symbols!"
+            error: errorMessages.commentLength
         };
     }
     
     try {
         await Comment.findByIdAndUpdate(commentId, { content });
         return {
-            message: "Successfully updated!"
+            message: responseMessages.successfulUpdate
         }
     } catch (err) {
         console.error(err);
         return {
-            error: "Error occured while updating the database!"
+            error: errorMessages.databaseUpdateError
         }
     }
 }
@@ -91,7 +93,7 @@ const deleteCommentById = async (commentId, userId) => {
 
     if (!comment || comment.postId.isDeleted) {
         return {
-            error: "Invalid commentId!"
+            error: errorMessages.invalidCommentId
         }
     }
 
@@ -99,7 +101,7 @@ const deleteCommentById = async (commentId, userId) => {
     const userIdString = JSON.stringify(userId);
     if (userIdString !== JSON.stringify(comment.creatorId) && userIdString !== JSON.stringify(comment.postId.creatorId)) {
         return {
-            error: "Given userId is not the creator of the comment or the creator of the post!"
+            error: errorMessages.userIdNotCreatorPostAndComment
         };
     }
 
@@ -108,12 +110,12 @@ const deleteCommentById = async (commentId, userId) => {
         await Post.findByIdAndUpdate(comment.postId, { $pullAll: { comments: [commentId] } });
 
         return {
-            message: "Successfully deleted!"
+            message: responseMessages.successfulDelete
         };
     } catch (err) {
         console.error(err);
         return {
-            error: "Error occured while updating the database!"
+            error: errorMessages.databaseUpdateError
         };
     }
 };
