@@ -11,6 +11,7 @@ const errorMessages = {
     commentContentRequired: "Comment content is required!",
     commentLength: "Comment content length should be less or equal to 1000 symbols!",
 
+    cannotFollowYourself: "You can not follow yourself!",
     userIdIsNotCommentCreator: "Given userId is not the creator of the comment!",
     userIdIsNotPostCreator: "Given userId is not the creator of the post!",
     userIdNotCreatorPostAndComment: "Given userId is not the creator of the comment or the creator of the post!",
@@ -18,7 +19,7 @@ const errorMessages = {
     uploadingError: "Error occured while uploading the image!",
     notAuthenticated: "Not authenticated!",
     wrongCredentials: "Wrong credentials!",
-    missingAuth: "Missing authorization header",
+    missingAuth: "Missing authorization header!",
     userExists: "User with this username already exists!"
 };
 
