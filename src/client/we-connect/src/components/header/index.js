@@ -9,7 +9,7 @@ const Header = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#acc">My Account</Nav.Link>
+                    <Nav.Link href="#acc">We Connect</Nav.Link>
                 </Nav>
                 <Nav>
                     <Nav.Link href="#register">Register</Nav.Link>
