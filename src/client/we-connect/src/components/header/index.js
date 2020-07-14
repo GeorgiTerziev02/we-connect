@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 
 const Header = () => {
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Brand href="#home"><img src="https://res.cloudinary.com/dlgtvkmfb/image/upload/c_scale,h_36/v1594649995/weconnect_rmfzhf.png" alt=""/></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
