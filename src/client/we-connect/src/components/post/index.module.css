@@ -1,0 +1,40 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(5,5,5,5.2);
+  transition: 0.3s;
+  width: 40%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(5,5,5,5.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.img-style{
+    widows: 500px;
+    height: 500px;
+ 
+ /*Scale down will take the necessary specified space that is 100px x 100px without stretching the image*/
+     object-fit:scale-down;
+ }
+ 
+ hr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+}
+.item {
+    border:1px solid pink;
+    width: 120px;
+    float: left;
+    margin: 3px;
+    padding: 3px;
+}
+
+p{
+ word-wrap:break-word;
+}
