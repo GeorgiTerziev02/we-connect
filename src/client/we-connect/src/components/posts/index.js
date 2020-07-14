@@ -27,7 +27,8 @@ class Posts extends Component{
 
     render() {
         const { posts } = this.state
-        return (<div>
+        return (
+        <div>
             {posts ? posts.map(p => <Post key={p._id} {...p} />) : 'Loading'    }
         </div>
         );

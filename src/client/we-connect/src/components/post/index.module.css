@@ -11,14 +11,6 @@
 .container {
   padding: 2px 16px;
 }
-
-.img-style{
-    widows: 500px;
-    height: 500px;
- 
- /*Scale down will take the necessary specified space that is 100px x 100px without stretching the image*/
-     object-fit:scale-down;
- }
  
  hr {
     border: none;
