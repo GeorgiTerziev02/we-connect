@@ -1,0 +1,10 @@
+.input{
+    width: calc(20.5em + .75rem + 2px);
+    height: calc(1.5em + .75rem + 2px);
+    margin: auto;
+    display: block;
+}
+
+.form{
+    padding-top: 30px;
+}

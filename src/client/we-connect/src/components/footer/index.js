@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 const Footer = () => {
     return (
         <footer>
-            <Navbar sticky="bottom" bg="dark" variant="dark">
+            <Navbar fixed="bottom" sticky="bottom" bg="dark" variant="dark">
                 <Navbar.Brand href="#home">
                     We Connect
             </Navbar.Brand>
