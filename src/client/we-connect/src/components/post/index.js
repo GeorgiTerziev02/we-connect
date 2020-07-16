@@ -4,10 +4,10 @@ import Image from '../image'
 
 const Post = (props) => {
     return (
-        <div class={styles.card}>
+        <div className={styles.card}>
             <Image imageUrl={props.imageUrl}/>
             <hr/>
-            <div class={props.container}>
+            <div className={props.container}>
                 <p>{props.description}</p>
             </div>
         </div>
