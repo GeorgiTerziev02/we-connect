@@ -7,17 +7,17 @@ import Button from 'react-bootstrap/Button'
 // TODO: method - post
 const Login = () => {
     return (
-        <Form className={styles.form}>
+        <Form className={styles["login-form"]}>
             <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control className={styles.input} type="email" placeholder="Enter email" />
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text" name="username" placeholder="Enter username" />
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control className={styles.input} type="password" placeholder="Password" />
+                <Form.Control type="password" name="password" placeholder="Password" />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" block="true" type="submit">
                 Login
             </Button>
         </Form>
