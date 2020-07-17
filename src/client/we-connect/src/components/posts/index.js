@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import styles from './index.module.css'
 import Post from '../post'
+import Spinner from '../spinner'
 
 class Posts extends Component {
     constructor(props) {
@@ -13,7 +15,7 @@ class Posts extends Component {
     getPosts = async () => {
         const promise = await fetch('http://localhost:4000/api/posts/user/5efe045633c1871ba084d3b2', {
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTQ4OTM4NjksImV4cCI6MTU5NDg5NzQ2OX0.19us0U6XaJiD37wU1Co0IKU1SB6G8dlWxvwMrthMPTw'
+                'Authorization': 'Bearer '
             }
         });
         const data = await promise.json();
@@ -28,8 +30,8 @@ class Posts extends Component {
     render() {
         const { posts } = this.state
         return (
-            <div>
-                {posts ? (posts.map(p => <Post key={p._id} {...p} />)) : 'Loading...'}
+            <div className={styles["posts-container"]}>
+                {posts ? (posts.map(p => <Post key={p._id} {...p} />)) : <Spinner />}
             </div>
         );
     }
