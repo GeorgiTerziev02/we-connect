@@ -1,4 +1,4 @@
-.register-form{
+.register-form, .login-form{
     width: 100%;
     max-width: 330px;
     margin: auto;

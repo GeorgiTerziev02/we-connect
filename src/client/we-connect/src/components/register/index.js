@@ -1,9 +1,8 @@
 import React from 'react'
-import styles from './index.module.css'
+import styles from '../shared/styles/login-register.module.css'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-// TODO: fix register and login form css is the same
 const Register = () => {
     return (
         <Form className={styles["register-form"]}>
