@@ -21,7 +21,7 @@ const Register = () => {
             <Form.Label>Repeat Password</Form.Label>
             <Form.Control type="password" name="rePassword" placeholder="Repeat Password" />
         </Form.Group>
-        <Button variant="primary" block="true" type="submit">
+        <Button variant="dark" block="true" type="submit">
             Register
         </Button>
     </Form>

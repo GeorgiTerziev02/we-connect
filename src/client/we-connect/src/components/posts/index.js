@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Post from '../post'
 
-class Posts extends Component{
+class Posts extends Component {
     constructor(props) {
         super(props)
 
@@ -18,7 +18,7 @@ class Posts extends Component{
         });
         const data = await promise.json();
         const posts = data.posts;
-        this.setState({posts})
+        this.setState({ posts })
     }
 
     componentDidMount() {
@@ -28,9 +28,9 @@ class Posts extends Component{
     render() {
         const { posts } = this.state
         return (
-        <div>
-            {posts ? posts.map(p => <Post key={p._id} {...p} />) : 'Loading'    }
-        </div>
+            <div>
+                {posts ? (posts.map(p => <Post key={p._id} {...p} />)) : 'Loading...'}
+            </div>
         );
     }
 }
