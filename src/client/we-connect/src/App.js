@@ -6,6 +6,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import Posts from './components/posts'
 import Login from './components/login';
 import Register from './components/register';
+import NotFound from './components/not-found';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/posts" component={Posts} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </main>
         <Footer />
