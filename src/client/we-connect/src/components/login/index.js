@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../shared/styles/login-register.module.css'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+import SubmitButton from '../button/submit-button'
 
 const Login = () => {
     return (
@@ -15,9 +15,7 @@ const Login = () => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" name="password" placeholder="Password" />
             </Form.Group>
-            <Button variant="dark" block="true" type="submit">
-                Login
-            </Button>
+            <SubmitButton title="Login" />
         </Form>
     )
 }
