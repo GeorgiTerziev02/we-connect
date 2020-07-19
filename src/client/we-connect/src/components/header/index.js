@@ -13,6 +13,7 @@ const Header = () => {
                     <Nav.Link as={Link} to="/">We Connect</Nav.Link>
                 </Nav>
                 <Nav>
+                    <Nav.Link as={Link} to="/share-post">Share</Nav.Link>
                     <Nav.Link as={Link} to="/register">Register</Nav.Link>
                     <Nav.Link as={Link} to="/login">
                         Login
