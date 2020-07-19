@@ -2,5 +2,14 @@
     width: 100%;
     max-width: 330px;
     margin: auto;
-    padding: 15px;
+    padding: 10px;
+}
+
+.container{
+    margin: auto;
+    margin-top: 30px;
+    padding: 10px;
+    max-width: 330px;
+    border: 5px solid #3a416e;
+    border-radius: 5px;
 }

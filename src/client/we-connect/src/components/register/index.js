@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styles from '../shared/styles/login-register.module.css'
 import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
@@ -6,7 +6,7 @@ import Title from '../title'
 
 const Register = () => {
     return (
-        <Fragment>
+        <div className={styles.container}>
             <Title text="Register" />
             <Form className={styles["register-form"]}>
                 <Form.Group controlId="formBasicEmail">
@@ -25,7 +25,7 @@ const Register = () => {
                 </Form.Group>
                 <SubmitButton title="Register" />
             </Form>
-        </Fragment>
+        </div>
     )
 }
 
