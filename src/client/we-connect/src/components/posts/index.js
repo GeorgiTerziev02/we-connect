@@ -15,7 +15,7 @@ class Posts extends Component {
     getPosts = async () => {
         const promise = await fetch('http://localhost:4000/api/posts/user/5efe045633c1871ba084d3b2', {
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTUwMTEzODAsImV4cCI6MTU5NTAxNDk4MH0.lbV3ABQ2rp8pLzy3ViL0JDYe5OvB5S0XxDdgneGSjhc'
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTUwNzQyMTIsImV4cCI6MTU5NTA3NzgxMn0.e1jksL7F9Lufa0bTfP7pLBP5C0NHPkEoJuhE8ePzGtU'
             }
         });
         const data = await promise.json();
