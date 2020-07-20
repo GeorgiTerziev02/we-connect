@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Posts from '../posts';
 import Title from '../title'
+import ProfileStats from '../profile-stats';
 
 class Profile extends Component {
     constructor(props) {
@@ -49,15 +50,7 @@ class Profile extends Component {
         return (
             <div>
                 <Title text={username} />
-                <div>
-                    Followers: {followers}
-                </div>
-                <div>
-                    Following: {following}
-                </div>
-                <div>
-                    Posts: {postsCount}
-                </div>
+                <ProfileStats followers={followers} following={following} postsCount={postsCount} />
                 <Posts posts={posts} />
             </div>
         )
