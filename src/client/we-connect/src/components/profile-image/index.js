@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 
 // TODO: Harcoded + add upload profile image to server api
 const ProfileImage = ({ imageUrl }) => {
-    if (!imageUrl) {
+    if (imageUrl) {
         return (
             <div className={styles.container}>
             <Form>
