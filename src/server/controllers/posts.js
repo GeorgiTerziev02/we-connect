@@ -83,7 +83,7 @@ const getPostsByUserId = async (userId) => {
 
 const getPostById = async (postId) => {
   try {
-    const post = await Post.findOne({_id: postId, isDeleted: false}).lean();
+    const post = await Post.findOne({_id: postId, isDeleted: false}).populate('comments').lean();
     if (!post) {
       return {
         error: errorMessages.invalidPostId
