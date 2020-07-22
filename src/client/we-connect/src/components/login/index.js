@@ -1,27 +1,68 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styles from '../shared/styles/login-register.module.css'
 import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
 import Title from '../title'
+import Input from '../input'
 
-const Login = () => {
-    return (
-        <div className={styles.container}>
-            <Title text="Login" />
-            <Form className={styles["login-form"]}>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" name="username" placeholder="Enter username" />
-                </Form.Group>
+class Login extends Component{
+    constructor(props) {
+        super(props)
 
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" placeholder="Password" />
-                </Form.Group>
-                <SubmitButton title="Login" />
-            </Form>
-        </div>
-    )
+        this.state = {
+            username: '',
+            password: ''
+        }
+    }
+
+    changeUsername = (event) => {
+        this.setState({
+            username: event.target.value
+        })
+    }
+
+    changePassword = (event) => {
+        this.setState({
+            password: event.target.value
+        })
+    }
+
+    submitHandler = (event) => {
+        event.preventDefault();
+    }
+
+    render() {
+        const {
+            username,
+            password
+        } = this.state
+
+        return (
+            <div className={styles.container}>
+                <Title text="Login" />
+                <Form className={styles["login-form"]} onSubmit={this.submitHandler}>
+                <Input
+                        id="username"
+                        type="text"
+                        label="Username"
+                        value={username}
+                        placeholder="Enter username"
+                        onChange={this.changeUsername}
+                    />
+
+                    <Input
+                        id="password"
+                        type="password"
+                        label="Password"
+                        value={password}
+                        placeholder="Enter password"
+                        onChange={this.changePassword}
+                    />
+                    <SubmitButton title="Login" />
+                </Form>
+            </div>    
+        )
+    }
 }
 
 export default Login
