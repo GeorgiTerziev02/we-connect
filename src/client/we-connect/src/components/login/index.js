@@ -5,7 +5,7 @@ import SubmitButton from '../button/submit-button'
 import Title from '../title'
 import Input from '../input'
 
-class Login extends Component{
+class Login extends Component {
     constructor(props) {
         super(props)
 
@@ -27,8 +27,35 @@ class Login extends Component{
         })
     }
 
-    submitHandler = (event) => {
-        event.preventDefault();
+    submitHandler = async (event) => {
+        event.preventDefault()
+
+        const {
+            username,
+            password
+        } = this.state
+
+        try {
+            const promise = await fetch('http://localhost:4000/api/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    'username': username,
+                    'password': password
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const data = await promise.json();
+            
+            if(data.token){
+                document.cookie = `x-auth-token=${data.token}`
+                this.props.history.push('/')
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
@@ -41,7 +68,7 @@ class Login extends Component{
             <div className={styles.container}>
                 <Title text="Login" />
                 <Form className={styles["login-form"]} onSubmit={this.submitHandler}>
-                <Input
+                    <Input
                         id="username"
                         type="text"
                         label="Username"
@@ -60,7 +87,7 @@ class Login extends Component{
                     />
                     <SubmitButton title="Login" />
                 </Form>
-            </div>    
+            </div>
         )
     }
 }

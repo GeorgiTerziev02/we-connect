@@ -11,6 +11,7 @@ import NotFound from './components/not-found';
 import Profile from './components/profile';
 import PostDetails from './components/post-details';
 
+// TODO: Try lazy loading
 function App() {
   return (
     <BrowserRouter>
