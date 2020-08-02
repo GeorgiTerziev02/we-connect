@@ -5,6 +5,7 @@ import SubmitButton from '../button/submit-button'
 import Title from '../title'
 import Input from '../input'
 import ErrorMessage from '../error-message'
+import userService from '../../services/user-service'
 
 class Login extends Component {
     constructor(props) {
@@ -70,18 +71,7 @@ class Login extends Component {
 
         if (username && password) {
             try {
-                const promise = await fetch('http://localhost:4000/api/login', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        'username': username,
-                        'password': password
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-
-                const data = await promise.json();
+                const data = await userService.login(username, password)
                 
                 if (data.token) {
                     this.setState({

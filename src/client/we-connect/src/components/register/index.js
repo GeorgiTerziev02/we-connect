@@ -119,9 +119,9 @@ class Register extends Component {
             rePasswordError
         } = this.state
 
-        if (!usernameError && !passwordError && !rePasswordError && username && password && rePassword) {
+        if (!usernameError && !passwordError && !rePasswordError
+            && username && password && rePassword) {
             const data = await userService.register(username, password)
-            console.log(data)
 
             if (data.token) {
                 this.setState({
