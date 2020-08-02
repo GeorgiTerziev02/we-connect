@@ -5,15 +5,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        //minlength: [3, 'Username should be at least 3 symbols long'],
-        //maxlength: [50, 'Username should be less than 50 symbols long'],
+        minlength: [3, 'Username should be at least 3 symbols long'],
+        maxlength: [50, 'Username should be less than 50 symbols long'],
         match: [/^[A-Za-z0-9 ]+$/, 'Username contains invalid characters']
     },
     password:{
         type: String,
-        required: true,
-        minlength: 6,
-        maxlength: 20
+        required: true
     },
     following:[{
         type: 'ObjectId',

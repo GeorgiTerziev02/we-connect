@@ -1,5 +1,10 @@
 const errorMessages = {
     userNotFound: "User not found!",
+    usernameLength: "Username must be between 3 and 50 symbols!",
+    usernameContainsInvalindSymbols: "Username must consist only of letters, numbers and spaces!",
+    usernameRequired: "Username is required!",
+    passwordRequired: "Password is required!",
+    passwordLength: "Password must be between 6 and 20 symbols!",
     invalidUsernamePassword: "Username/Password is incorrect!",
     invalidUserId: "Invalid userId!",
     invalidPostId: "Invalid postId!",

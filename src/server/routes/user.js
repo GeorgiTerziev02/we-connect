@@ -31,9 +31,49 @@ router.post('/register', async (req, res) => {
                 });
         }
 
+        if (!username) {
+            return res
+                .status(400)
+                .json({
+                    error: errorMessages.usernameRequired
+                })
+        }
+
+        if (username.length < 3 || username.length > 50) {
+            return res
+                .status(400)
+                .json({
+                    error: errorMessages.usernameLength
+                })
+        }
+
+        if (!username.match(/^[A-Za-z0-9 ]+$/)) {
+            return res
+                .status(400)
+                .json({
+                    error: errorMessages.usernameContainsInvalindSymbols
+                })
+        }
+
+        if (!password) {
+            return res
+                .status(400)
+                .json({
+                    error: errorMessages.passwordRequired
+                })
+        }
+
+        if (password.length < 6 || password.length > 20) {
+            return res
+                .status(400)
+                .json({
+                    error: errorMessages.passwordRequired
+                })
+        }
+
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
-        // TODO: Add validation
+        
         const newUser = new User({ username, password: hashedPassword });
         const userObj = await newUser.save();
 
