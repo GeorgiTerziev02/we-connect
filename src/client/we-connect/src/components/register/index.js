@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
 import Title from '../title'
 import Input from '../input'
+import ErrorMessage from '../error-message'
+import userService from '../../services/user-service'
 
 class Register extends Component {
     constructor(props) {
@@ -18,7 +20,9 @@ class Register extends Component {
             passwordErrorMessage: '',
             rePassword: '',
             rePasswordError: false,
-            rePasswordErrorMessage: ''
+            rePasswordErrorMessage: '',
+            submitError: false,
+            submitErrorMessage: ''
         }
     }
 
@@ -44,7 +48,7 @@ class Register extends Component {
         } else if (!username.match(/^[A-Za-z0-9 ]+$/)) {
             this.setState({
                 usernameError: true,
-                usernameErrorMessage: 'Username must consist only of letters and digits'
+                usernameErrorMessage: 'Username must consist only of letters, digits and spaces'
             })
         } else {
             this.setState({
@@ -103,34 +107,60 @@ class Register extends Component {
         }
     }
 
-    submitHandler = (event) => {
+    submitHandler = async (event) => {
         event.preventDefault();
 
         const {
             username,
             password,
-            rePassword
+            rePassword,
+            usernameError,
+            passwordError,
+            rePasswordError
         } = this.state
 
-        if (!username) {
-            this.setState({
-                usernameError: true,
-                usernameErrorMessage: 'Username is required!'
-            })
-        }
+        if (!usernameError && !passwordError && !rePasswordError && username && password && rePassword) {
+            const data = await userService.register(username, password)
+            console.log(data)
 
-        if (!password) {
-            this.setState({
-                passwordError: true,
-                passwordErrorMessage: 'Password is required!'
-            })
-        }
+            if (data.token) {
+                this.setState({
+                    submitError: false
+                })
+                document.cookie = `x-auth-token=${data.token}`
+                this.props.history.push('/')
+            } else {
+                this.setState({
+                    submitError: true,
+                    submitErrorMessage: data.error,
+                    password: '',
+                    rePassword: ''
+                })
+            }
+        } else {
+            if (!username) {
+                this.setState({
+                    usernameError: true,
+                    usernameErrorMessage: 'Username is required!',
+                    submitError: false
+                })
+            }
 
-        if (!rePassword) {
-            this.setState({
-                rePasswordError: true,
-                rePasswordErrorMessage: 'Re-Password is required!'
-            })
+            if (!password) {
+                this.setState({
+                    passwordError: true,
+                    passwordErrorMessage: 'Password is required!',
+                    submitError: false
+                })
+            }
+
+            if (password !== rePassword) {
+                this.setState({
+                    rePasswordError: true,
+                    rePasswordErrorMessage: 'Re-Password is required!',
+                    submitError: false
+                })
+            }
         }
     }
 
@@ -144,13 +174,16 @@ class Register extends Component {
             passwordErrorMessage,
             rePassword,
             rePasswordError,
-            rePasswordErrorMessage
+            rePasswordErrorMessage,
+            submitError,
+            submitErrorMessage
         } = this.state
 
         return (
             <div className={styles.container}>
                 <Title text="Register" />
                 <Form className={styles["register-form"]} onSubmit={this.submitHandler}>
+                    <ErrorMessage error={submitError} errorMessage={submitErrorMessage}/>
                     <Input
                         id="username"
                         error={usernameError}
