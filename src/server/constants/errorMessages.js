@@ -1,5 +1,6 @@
 const errorMessages = {
     userNotFound: "User not found!",
+    invalidUsernamePassword: "Username/Password is incorrect!",
     invalidUserId: "Invalid userId!",
     invalidPostId: "Invalid postId!",
     invalidCommentId: "Invalid commentId!",

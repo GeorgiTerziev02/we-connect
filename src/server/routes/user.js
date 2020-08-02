@@ -71,7 +71,7 @@ router.post('/login', async (req, res) => {
             return res
                 .status(404)
                 .json({
-                    error: errorMessages.userNotFound
+                    error: errorMessages.invalidUsernamePassword
                 });
         }
 
