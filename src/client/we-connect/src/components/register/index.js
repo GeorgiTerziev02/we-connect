@@ -11,8 +11,14 @@ class Register extends Component {
 
         this.state = {
             username: '',
+            usernameError: false,
+            usernameErrorMessage: '',
             password: '',
-            rePassword: ''
+            passwordError: false,
+            passwordErrorMessage: '',
+            rePassword: '',
+            rePasswordError: false,
+            rePasswordErrorMessage: ''
         }
     }
 
@@ -22,10 +28,57 @@ class Register extends Component {
         })
     }
 
+    handleUsernameBlur = () => {
+        const { username } = this.state
+
+        if (!username) {
+            this.setState({
+                usernameError: true,
+                usernameErrorMessage: 'Username is required!'
+            })
+        } else if (username.length < 3 || username.length > 50) {
+            this.setState({
+                usernameError: true,
+                usernameErrorMessage: 'Username must be between 3 and 50 symbols!'
+            })
+        } else if (!username.match(/^[A-Za-z0-9 ]+$/)) {
+            this.setState({
+                usernameError: true,
+                usernameErrorMessage: 'Username must consist only of letters and digits'
+            })
+        } else {
+            this.setState({
+                usernameError: false,
+                usernameErrorMessage: ''
+            })
+        }
+    }
+
     changePassword = (event) => {
         this.setState({
             password: event.target.value
         })
+    }
+
+    handlePasswordBlur = () => {
+        const { password } = this.state
+
+        if (!password) {
+            this.setState({
+                passwordError: true,
+                passwordErrorMessage: 'Password is required!'
+            })
+        } else if (password.length < 6 || password.length > 20) {
+            this.setState({
+                passwordError: true,
+                passwordErrorMessage: 'Password must be between 6 and 20 symbols!'
+            })
+        } else {
+            this.setState({
+                passwordError: false,
+                passwordErrorMessage: ''
+            })
+        }
     }
 
     changeRePassword = (event) => {
@@ -34,23 +87,75 @@ class Register extends Component {
         })
     }
 
-    submitHandler = (event) => {
-        event.preventDefault();
+    handleRePasswordBlur = () => {
+        const { password, rePassword } = this.state
+
+        if (password !== rePassword) {
+            this.setState({
+                rePasswordError: true,
+                rePasswordErrorMessage: 'The two passwords does not match!'
+            })
+        } else {
+            this.setState({
+                rePasswordError: false,
+                rePasswordErrorMessage: ''
+            })
+        }
     }
 
-    render() {
+    submitHandler = (event) => {
+        event.preventDefault();
+
         const {
             username,
             password,
             rePassword
         } = this.state
-        
+
+        if (!username) {
+            this.setState({
+                usernameError: true,
+                usernameErrorMessage: 'Username is required!'
+            })
+        }
+
+        if (!password) {
+            this.setState({
+                passwordError: true,
+                passwordErrorMessage: 'Password is required!'
+            })
+        }
+
+        if (!rePassword) {
+            this.setState({
+                rePasswordError: true,
+                rePasswordErrorMessage: 'Re-Password is required!'
+            })
+        }
+    }
+
+    render() {
+        const {
+            username,
+            usernameError,
+            usernameErrorMessage,
+            password,
+            passwordError,
+            passwordErrorMessage,
+            rePassword,
+            rePasswordError,
+            rePasswordErrorMessage
+        } = this.state
+
         return (
             <div className={styles.container}>
                 <Title text="Register" />
                 <Form className={styles["register-form"]} onSubmit={this.submitHandler}>
                     <Input
                         id="username"
+                        error={usernameError}
+                        errorMessage={usernameErrorMessage}
+                        onBlur={this.handleUsernameBlur}
                         type="text"
                         label="Username"
                         value={username}
@@ -60,6 +165,9 @@ class Register extends Component {
 
                     <Input
                         id="password"
+                        error={passwordError}
+                        errorMessage={passwordErrorMessage}
+                        onBlur={this.handlePasswordBlur}
                         type="password"
                         label="Password"
                         value={password}
@@ -69,6 +177,9 @@ class Register extends Component {
 
                     <Input
                         id="rePassword"
+                        error={rePasswordError}
+                        errorMessage={rePasswordErrorMessage}
+                        onBlur={this.handleRePasswordBlur}
                         type="password"
                         label="Repeat Password"
                         value={rePassword}
