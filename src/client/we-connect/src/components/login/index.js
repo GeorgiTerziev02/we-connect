@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
 import Title from '../title'
 import Input from '../input'
+import ErrorMessage from '../error-message'
 
 class Login extends Component {
     constructor(props) {
@@ -11,6 +12,10 @@ class Login extends Component {
 
         this.state = {
             username: '',
+            usernameError: false,
+            passwordError: false,
+            submitError: false,
+            submitErrorMessage: '',
             password: ''
         }
     }
@@ -27,6 +32,34 @@ class Login extends Component {
         })
     }
 
+    handleUsernameBlur = () => {
+        const { username } = this.state;
+
+        if (!username) {
+            this.setState({
+                usernameError: true
+            });
+        } else {
+            this.setState({
+                usernameError: false
+            })
+        }
+    }
+
+    handlePasswordBlur = () => {
+        const { password } = this.state
+
+        if (!password) {
+            this.setState({
+                passwordError: true
+            })
+        } else {
+            this.setState({
+                passwordError: false
+            })
+        }
+    }
+
     submitHandler = async (event) => {
         event.preventDefault()
 
@@ -35,41 +68,78 @@ class Login extends Component {
             password
         } = this.state
 
-        try {
-            const promise = await fetch('http://localhost:4000/api/login', {
-                method: 'POST',
-                body: JSON.stringify({
-                    'username': username,
-                    'password': password
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+        if (username && password) {
+            try {
+                const promise = await fetch('http://localhost:4000/api/login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'username': username,
+                        'password': password
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
 
-            const data = await promise.json();
-            
-            if(data.token){
-                document.cookie = `x-auth-token=${data.token}`
-                this.props.history.push('/')
+                const data = await promise.json();
+                
+                if (data.token) {
+                    this.setState({
+                        submitError: false
+                    })
+                    document.cookie = `x-auth-token=${data.token}`
+                    this.props.history.push('/')
+                } else {
+                    this.setState({
+                        submitError: true,
+                        submitErrorMessage: data.error,
+                        password: ''
+                    })
+                }
+            } catch (error) {
+                console.log(error);
+                this.setState({
+                    submitError: true,
+                    submitErrorMessage: 'Error occured'
+                })
             }
-        } catch (error) {
-            console.log(error);
+        } else {
+            if (!username) {
+                this.setState({
+                    usernameError: true,
+                    submitError: false
+                })
+            }
+
+            if (!password) {
+                this.setState({
+                    passwordError: true,
+                    submitError: false
+                })
+            }
         }
     }
 
     render() {
         const {
             username,
-            password
+            usernameError,
+            passwordError,
+            password,
+            submitError,
+            submitErrorMessage
         } = this.state
 
         return (
             <div className={styles.container}>
                 <Title text="Login" />
                 <Form className={styles["login-form"]} onSubmit={this.submitHandler}>
+                    <ErrorMessage error={submitError} errorMessage={submitErrorMessage} />
                     <Input
                         id="username"
+                        error={usernameError}
+                        onBlur={this.handleUsernameBlur}
+                        errorMessage="Username is required!"
                         type="text"
                         label="Username"
                         value={username}
@@ -79,6 +149,9 @@ class Login extends Component {
 
                     <Input
                         id="password"
+                        error={passwordError}
+                        errorMessage="Password is required!"
+                        onBlur={this.handlePasswordBlur}
                         type="password"
                         label="Password"
                         value={password}
