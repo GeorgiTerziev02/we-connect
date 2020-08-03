@@ -6,6 +6,7 @@ import Title from '../title'
 import Input from '../input'
 import ErrorMessage from '../error-message'
 import userService from '../../services/user-service'
+import UserContext from '../../Context'
 
 class Login extends Component {
     constructor(props) {
@@ -20,6 +21,8 @@ class Login extends Component {
             password: ''
         }
     }
+
+    static contextType = UserContext
 
     changeUsername = (event) => {
         this.setState({
@@ -72,12 +75,16 @@ class Login extends Component {
         if (username && password) {
             try {
                 const data = await userService.login(username, password)
-                
+                console.log(data);
                 if (data.token) {
                     this.setState({
                         submitError: false
                     })
                     document.cookie = `x-auth-token=${data.token}`
+                    this.context.logIn({
+                        userId: data.userId,
+                        username: data.username
+                    })
                     this.props.history.push('/')
                 } else {
                     this.setState({
