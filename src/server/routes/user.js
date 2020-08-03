@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const errorMessages = require('../constants/errorMessages');
 const config = require('../config/config')[env];
+const { verifyToken } = require('../utils/auth')
 
 const router = Router();
 
@@ -149,5 +150,14 @@ router.post('/login', async (req, res) => {
             });
     }
 });
+
+router.post('/verify', async (req, res) => {
+    const token = req.body.token || '';
+    const data = await verifyToken(token)
+
+    return res
+        .status(data.status ? 200 : 401)
+        .json(data);
+})
 
 module.exports = router;
