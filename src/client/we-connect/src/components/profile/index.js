@@ -28,7 +28,7 @@ class Profile extends Component {
         });
 
         const data = await promise.json();
-        console.log(data);
+        
 
         this.setState({
             username: data.username,

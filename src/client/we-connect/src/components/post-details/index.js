@@ -24,7 +24,7 @@ class PostDetails extends Component{
         }
         
         const data = await promise.json();
-        console.log(data);
+        
 
         this.setState({
             post: data.post

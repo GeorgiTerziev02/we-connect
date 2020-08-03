@@ -7,6 +7,11 @@ import UserContext from '../../Context';
 class Header extends Component {
     static contextType = UserContext
 
+    logOut = () => {
+        // TODO: Destroy token ?
+        this.context.logOut()
+    }
+
     render() {
         const {
             loggedIn,
@@ -26,7 +31,7 @@ class Header extends Component {
                             (<Fragment>
                                 <Nav.Link as={Link} to="/share-post">Share</Nav.Link>
                                 <Nav.Link as={Link} to={`/user/${user.id}`}>Profile</Nav.Link>
-                                <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+                                <Nav.Link as={Link} to="/" onClick={this.logOut}>Logout</Nav.Link>
                             </Fragment>) :
                             (<Fragment>
                                 <Nav.Link as={Link} to="/register">Register</Nav.Link>

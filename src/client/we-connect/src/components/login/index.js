@@ -75,7 +75,7 @@ class Login extends Component {
         if (username && password) {
             try {
                 const data = await userService.login(username, password)
-                console.log(data);
+                
                 if (data.token) {
                     this.setState({
                         submitError: false
@@ -85,6 +85,7 @@ class Login extends Component {
                         id: data.userId,
                         username: data.username
                     })
+
                     this.props.history.push('/')
                 } else {
                     this.setState({
@@ -93,8 +94,8 @@ class Login extends Component {
                         password: ''
                     })
                 }
-            } catch (error) {
-                console.log(error);
+            } catch (err) {
+                console.error(err);
                 this.setState({
                     submitError: true,
                     submitErrorMessage: 'Error occured'

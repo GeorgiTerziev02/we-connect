@@ -13,7 +13,7 @@ class Posts extends Component{
 
     render() {
         const { posts } = this.props
-        console.log(this.context)
+        
         return (
             <div className={styles["posts-container"]}>
                 {posts ?

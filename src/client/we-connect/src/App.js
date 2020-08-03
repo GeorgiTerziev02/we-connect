@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import UserContext from './Context'
+import Spinner from './components/spinner';
+import getCookie from './utils/cookie';
+import userService from './services/user-service';
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      loggedIn: false,
+      loggedIn: null,
       user: null
     }
   }
@@ -19,10 +22,36 @@ class App extends Component {
   }
 
   logOut = () => {
+    document.cookie = "x-auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
     this.setState({
       loggedIn: false,
       user: null
     })
+  }
+
+  checkToken = async () => {
+    const token = getCookie('x-auth-token')
+    
+    if (!token) {
+      this.logOut()
+      return
+    }
+
+    const response = await userService.verifyToken(token)
+    
+    if (response.status) {
+      this.logIn({
+        id: response.id,
+        username: response.username
+      })
+    } else {
+      this.logOut()
+    }
+  }
+
+  componentDidMount() {
+    this.checkToken()
   }
 
   render() {
@@ -30,6 +59,13 @@ class App extends Component {
       loggedIn,
       user
     } = this.state
+
+    if (loggedIn === null) {
+      return (
+        <Spinner />
+      )
+    }
+    
     return (
       <UserContext.Provider value={{
         loggedIn,
