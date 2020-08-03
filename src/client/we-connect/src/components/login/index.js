@@ -82,7 +82,7 @@ class Login extends Component {
                     })
                     document.cookie = `x-auth-token=${data.token}`
                     this.context.logIn({
-                        userId: data.userId,
+                        id: data.userId,
                         username: data.username
                     })
                     this.props.history.push('/')

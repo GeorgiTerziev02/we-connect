@@ -6,6 +6,7 @@ import Title from '../title'
 import Input from '../input'
 import ErrorMessage from '../error-message'
 import userService from '../../services/user-service'
+import UserContext from '../../Context'
 
 class Register extends Component {
     constructor(props) {
@@ -25,6 +26,8 @@ class Register extends Component {
             submitErrorMessage: ''
         }
     }
+
+    static contextType = UserContext
 
     changeUsername = (event) => {
         this.setState({
@@ -128,6 +131,11 @@ class Register extends Component {
                     submitError: false
                 })
                 document.cookie = `x-auth-token=${data.token}`
+                this.context.logIn({
+                    id: data.userId,
+                    username: data.username
+                })
+
                 this.props.history.push('/')
             } else {
                 this.setState({
