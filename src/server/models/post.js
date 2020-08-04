@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     description: {
         type: String,
-        maxlength: 2000
+        maxlength: 2000,
+        required: true
     },
     imageUrl: {
         type: String,
