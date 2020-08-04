@@ -7,7 +7,7 @@ import ProfileImage from '../profile-image';
 class Profile extends Component {
     constructor(props) {
         super(props)
-
+        
         this.state = {
             username: null,
             followers: null,
