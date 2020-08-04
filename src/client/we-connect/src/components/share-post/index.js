@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import styles from './index.module.css'
 import Title from '../title'
 import Form from 'react-bootstrap/Form'
@@ -119,22 +120,21 @@ class SharePost extends Component {
 
         if (!imageError && !descriptionError && !locationError && image && description) {
             const data = new FormData()
-
             data.append('image', image)
-            data.append("otherStuff", "stuff from a text input");
-            console.log(data)
-            console.log(1);
-            const promise = await fetch('http://localhost:4000/api/posts', {
-                method: 'POST',
-                body: data,
+            data.append('description', description)
+
+            location && data.append('location', location)
+
+            axios.post('http://localhost:4000/api/posts', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTY1NDEwNjQsImV4cCI6MTU5NjU0NDY2NH0.7GVWwK4hMLvTpMFRfLML5jkr1CbupWzr5GipmP5XLlU'
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTY1NDQyMTksImV4cCI6MTU5NjU0NzgxOX0.CQlvZpGIQLAovJepC65wH1HICC2NbMagnmmizWFj5us'
                 }
+            }).then(response => {
+                console.log(response);
+                this.props.history.push(`/posts/${response.data.postId}`);
             })
-
-            const response = await promise.json()
-            console.log(response)
+                .catch(console.log);
         }
     }
 
