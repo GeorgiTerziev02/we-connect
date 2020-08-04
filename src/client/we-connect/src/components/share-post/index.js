@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
 import Input from '../input'
 import TextArea from '../text-area'
+import ErrorMessage from '../error-message'
 
 // TODO: extract common css
 
@@ -19,7 +20,9 @@ class SharePost extends Component {
             description: '',
             descriptionError: false,
             descriptionErrorMessage: '',
-            image: null
+            image: null,
+            imageError: false,
+            imageErrorMessage: ''
         }
     }
 
@@ -53,7 +56,7 @@ class SharePost extends Component {
 
     handleDescriptionBlur = () => {
         const { description } = this.state
-        
+
         if (!description) {
             this.setState({
                 descriptionError: true,
@@ -72,8 +75,67 @@ class SharePost extends Component {
         }
     }
 
-    submitHandler = (event) => {
+    changeImage = (event) => {
+        this.setState({
+            image: event.target.files[0]
+        })
+    }
+
+    submitHandler = async (event) => {
         event.preventDefault();
+        
+        const {
+            location,
+            description,
+            image,
+            imageError,
+            descriptionError,
+            locationError
+        } = this.state;
+
+        console.log(image);
+
+        if (location && location.length > 100) {
+            this.setState({
+                locationError: true,
+                locationErrorMessage: 'Location must be less than 100 symbols!'
+            })
+        }
+
+        // TODO: Not sure if this is correct
+        this.handleDescriptionBlur();
+
+        if (image === null) {
+            this.setState({
+                imageError: true,
+                imageErrorMessage: 'Image is required!'
+            })
+        } else {
+            this.setState({
+                imageError: false,
+                imageErrorMessage: ''
+            })
+        }
+
+        if (!imageError && !descriptionError && !locationError && image && description) {
+            const data = new FormData()
+
+            data.append('image', image)
+            data.append("otherStuff", "stuff from a text input");
+            console.log(data)
+            console.log(1);
+            const promise = await fetch('http://localhost:4000/api/posts', {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTY1NDEwNjQsImV4cCI6MTU5NjU0NDY2NH0.7GVWwK4hMLvTpMFRfLML5jkr1CbupWzr5GipmP5XLlU'
+                }
+            })
+
+            const response = await promise.json()
+            console.log(response)
+        }
     }
 
     render() {
@@ -83,7 +145,9 @@ class SharePost extends Component {
             locationErrorMessage,
             description,
             descriptionError,
-            descriptionErrorMessage
+            descriptionErrorMessage,
+            imageError,
+            imageErrorMessage
         } = this.state
 
         return (
@@ -122,7 +186,9 @@ class SharePost extends Component {
                             // required
                             id="image"
                             name="image"
+                            onChange={this.changeImage}
                         />
+                        <ErrorMessage error={imageError} errorMessage={imageErrorMessage} />
                     </Form.Group>
                     <SubmitButton title="Share" />
                 </Form>
