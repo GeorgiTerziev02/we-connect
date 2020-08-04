@@ -27,7 +27,7 @@ class Navigation extends Component {
                     <Header />
                     <main>
                         <Switch>
-                            <Route path="/" exact></Route>
+                            <Route path="/" exact><Redirect to="/posts"/></Route>
                             <Route path="/user/:userId" component={Profile} />
                             <Route path="/posts/:postId" component={PostDetails} />
                             <Route path="/posts" component={Posts} />

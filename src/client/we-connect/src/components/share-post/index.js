@@ -23,7 +23,9 @@ class SharePost extends Component {
             descriptionErrorMessage: '',
             image: null,
             imageError: false,
-            imageErrorMessage: ''
+            imageErrorMessage: '',
+            submitError: false,
+            submitErrorMessage: ''
         }
     }
 
@@ -84,7 +86,7 @@ class SharePost extends Component {
 
     submitHandler = async (event) => {
         event.preventDefault();
-        
+
         const {
             location,
             description,
@@ -93,8 +95,7 @@ class SharePost extends Component {
             descriptionError,
             locationError
         } = this.state;
-
-        console.log(image);
+        
 
         if (location && location.length > 100) {
             this.setState({
@@ -130,11 +131,16 @@ class SharePost extends Component {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTY1NDQyMTksImV4cCI6MTU5NjU0NzgxOX0.CQlvZpGIQLAovJepC65wH1HICC2NbMagnmmizWFj5us'
                 }
-            }).then(response => {
-                console.log(response);
+            }).then((response) => {
                 this.props.history.push(`/posts/${response.data.postId}`);
             })
-                .catch(console.log);
+                .catch((error) => {
+                    console.error(error.response)
+                    this.setState({
+                        submitError: true,
+                        submitErrorMessage: error.response.data.error
+                    })
+                });
         }
     }
 
@@ -147,13 +153,16 @@ class SharePost extends Component {
             descriptionError,
             descriptionErrorMessage,
             imageError,
-            imageErrorMessage
+            imageErrorMessage,
+            submitError,
+            submitErrorMessage
         } = this.state
 
         return (
             <div className={styles.container}>
                 <Title text="Share Post" />
                 <Form className={styles["share-post"]} onSubmit={this.submitHandler}>
+                    <ErrorMessage error={submitError} errorMessage={submitErrorMessage}/>
                     <Input
                         id="location"
                         error={locationError}
