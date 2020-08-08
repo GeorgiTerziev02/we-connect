@@ -7,6 +7,7 @@ import SubmitButton from '../button/submit-button'
 import Input from '../input'
 import TextArea from '../text-area'
 import ErrorMessage from '../error-message'
+import getCookie from '../../utils/cookie'
 
 // TODO: extract common css
 
@@ -129,7 +130,7 @@ class SharePost extends Component {
             axios.post('http://localhost:4000/api/posts', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWZlMDQ1NjMzYzE4NzFiYTA4NGQzYjIiLCJ1c2VybmFtZSI6IjEiLCJpYXQiOjE1OTY1NDQyMTksImV4cCI6MTU5NjU0NzgxOX0.CQlvZpGIQLAovJepC65wH1HICC2NbMagnmmizWFj5us'
+                    'Authorization': `Bearer ${getCookie("x-auth-token")}`
                 }
             }).then((response) => {
                 this.props.history.push(`/posts/${response.data.postId}`);

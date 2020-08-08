@@ -19,6 +19,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     form.parse(req, async (err, fields, files) => {
         if (err) {
+            console.error(err)
             next('1', err);
             return;
         }
