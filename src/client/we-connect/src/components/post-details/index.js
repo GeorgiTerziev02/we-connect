@@ -4,6 +4,7 @@ import styles from './index.module.css'
 import getCookie from '../../utils/cookie'
 import Post from '../post'
 import Spinner from '../spinner'
+import Comments from '../comments'
 
 class PostDetails extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class PostDetails extends Component {
         }
 
         const data = await promise.json();
-
+        console.log(data);
 
         this.setState({
             post: data.post
@@ -50,7 +51,7 @@ class PostDetails extends Component {
         return (
             <div className={styles["post-details"]}>
                 <Post {...post} />
-                {/* Comments */}
+                <Comments />
             </div>
         )
     }
