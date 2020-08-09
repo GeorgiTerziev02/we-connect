@@ -51,7 +51,7 @@ class PostDetails extends Component {
         return (
             <div className={styles["post-details"]}>
                 <Post {...post} />
-                <Comments />
+                <Comments comments={post.comments} />
             </div>
         )
     }
