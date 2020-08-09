@@ -19,7 +19,6 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.userId);
         this.getUserInfo(this.props.match.params.userId);
     }
 

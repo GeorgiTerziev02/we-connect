@@ -5,10 +5,6 @@ import Spinner from '../spinner'
 import UserContext from '../../Context'
 
 class Posts extends Component{
-    constructor(props) {
-        super(props)
-    }
-
     static contextType = UserContext
 
     render() {

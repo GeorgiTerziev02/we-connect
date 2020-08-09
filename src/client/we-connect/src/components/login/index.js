@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useContext } from 'react'
 import styles from '../shared/styles/login-register.module.css'
 import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
@@ -7,160 +7,104 @@ import Input from '../input'
 import ErrorMessage from '../error-message'
 import userService from '../../services/user-service'
 import UserContext from '../../Context'
+import { useHistory } from 'react-router-dom'
 
-class Login extends Component {
-    constructor(props) {
-        super(props)
+const Login = () => {
+    const [username, setUsername] = useState('')
+    const [usernameError, setUsernameError] = useState(false)
+    const [password, setPassword] = useState('')
+    const [passwordError, setPasswordError] = useState(false)
+    const [submitError, setSumbitError] = useState(false)
+    const [submitErrorMessage, setSubmitErrorMessage] = useState('')
 
-        this.state = {
-            username: '',
-            usernameError: false,
-            passwordError: false,
-            submitError: false,
-            submitErrorMessage: '',
-            password: ''
-        }
-    }
+    const context = useContext(UserContext)
+    const history = useHistory()
 
-    static contextType = UserContext
-
-    changeUsername = (event) => {
-        this.setState({
-            username: event.target.value
-        })
-    }
-
-    changePassword = (event) => {
-        this.setState({
-            password: event.target.value
-        })
-    }
-
-    handleUsernameBlur = () => {
-        const { username } = this.state;
-
+    const handleUsernameBlur = () => {
         if (!username) {
-            this.setState({
-                usernameError: true
-            });
+            setUsernameError(true)
         } else {
-            this.setState({
-                usernameError: false
-            })
+            setUsernameError(false)
         }
     }
 
-    handlePasswordBlur = () => {
-        const { password } = this.state
-
+    const handlePasswordBlur = () => {
         if (!password) {
-            this.setState({
-                passwordError: true
-            })
+            setPasswordError(true)
         } else {
-            this.setState({
-                passwordError: false
-            })
+            setPasswordError(false)
         }
     }
 
-    submitHandler = async (event) => {
+    const submitHandler = async (event) => {
         event.preventDefault()
-
-        const {
-            username,
-            password
-        } = this.state
-
         if (username && password) {
             try {
                 const data = await userService.login(username, password)
-                
+
                 if (data.token) {
-                    this.setState({
-                        submitError: false
-                    })
+                    setSumbitError(false)
                     document.cookie = `x-auth-token=${data.token}`
-                    this.context.logIn({
+                    context.logIn({
                         id: data.userId,
                         username: data.username
                     })
 
-                    this.props.history.push('/')
+                    history.push('/')
                 } else {
-                    this.setState({
-                        submitError: true,
-                        submitErrorMessage: data.error,
-                        password: ''
-                    })
+                    setSumbitError(true)
+                    setSubmitErrorMessage(data.error)
+                    setPassword('')
                 }
             } catch (err) {
                 console.error(err);
-                this.setState({
-                    submitError: true,
-                    submitErrorMessage: 'Error occured'
-                })
+                setSumbitError(true)
+                setSubmitErrorMessage('Error occured!')
             }
         } else {
             if (!username) {
-                this.setState({
-                    usernameError: true,
-                    submitError: false
-                })
+                setUsernameError(true)
+                setSumbitError(false)
             }
 
             if (!password) {
-                this.setState({
-                    passwordError: true,
-                    submitError: false
-                })
+                setPasswordError(true)
+                setSumbitError(false)
             }
         }
     }
 
-    render() {
-        const {
-            username,
-            usernameError,
-            passwordError,
-            password,
-            submitError,
-            submitErrorMessage
-        } = this.state
+    return (
+        <div className={styles.container}>
+            <Title text="Login" />
+            <Form className={styles["login-form"]} onSubmit={submitHandler}>
+                <ErrorMessage error={submitError} errorMessage={submitErrorMessage} />
+                <Input
+                    id="username"
+                    error={usernameError}
+                    onBlur={handleUsernameBlur}
+                    errorMessage="Username is required!"
+                    type="text"
+                    label="Username"
+                    value={username}
+                    placeholder="Enter username"
+                    onChange={e => setUsername(e.target.value)}
+                />
 
-        return (
-            <div className={styles.container}>
-                <Title text="Login" />
-                <Form className={styles["login-form"]} onSubmit={this.submitHandler}>
-                    <ErrorMessage error={submitError} errorMessage={submitErrorMessage} />
-                    <Input
-                        id="username"
-                        error={usernameError}
-                        onBlur={this.handleUsernameBlur}
-                        errorMessage="Username is required!"
-                        type="text"
-                        label="Username"
-                        value={username}
-                        placeholder="Enter username"
-                        onChange={this.changeUsername}
-                    />
-
-                    <Input
-                        id="password"
-                        error={passwordError}
-                        errorMessage="Password is required!"
-                        onBlur={this.handlePasswordBlur}
-                        type="password"
-                        label="Password"
-                        value={password}
-                        placeholder="Enter password"
-                        onChange={this.changePassword}
-                    />
-                    <SubmitButton title="Login" />
-                </Form>
-            </div>
-        )
-    }
+                <Input
+                    id="password"
+                    error={passwordError}
+                    errorMessage="Password is required!"
+                    onBlur={handlePasswordBlur}
+                    type="password"
+                    label="Password"
+                    value={password}
+                    placeholder="Enter password"
+                    onChange={e => setPassword(e.target.value)}
+                />
+                <SubmitButton title="Login" />
+            </Form>
+        </div>)
 }
 
 export default Login
