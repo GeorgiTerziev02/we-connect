@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './index.module.css'
 import Card from 'react-bootstrap/Card'
 
 const Comment = ({ content, createdAt, creator }) => {
@@ -9,8 +10,8 @@ const Comment = ({ content, createdAt, creator }) => {
                     <br />
                 <small>
                     {createdAt}
+                    <strong className={styles.user}>{creator}</strong>
                 </small>
-                    <strong>{creator}</strong>
                 <hr />
             </Card.Body>
         </Card>
