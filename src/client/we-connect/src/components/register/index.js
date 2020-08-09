@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {withRouter} from 'react-router-dom' 
 import styles from '../shared/styles/login-register.module.css'
 import Form from 'react-bootstrap/Form'
 import SubmitButton from '../button/submit-button'
@@ -234,4 +235,4 @@ class Register extends Component {
     }
 }
 
-export default Register
+export default withRouter(Register)

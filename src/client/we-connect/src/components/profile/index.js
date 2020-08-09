@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import Posts from '../posts';
+import { withRouter } from 'react-router-dom'
+import Posts from '../posts'
 import Title from '../title'
-import ProfileStats from '../profile-stats';
-import ProfileImage from '../profile-image';
-import getCookie from '../../utils/cookie';
+import ProfileStats from '../profile-stats'
+import ProfileImage from '../profile-image'
+import getCookie from '../../utils/cookie'
 
 class Profile extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class Profile extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.match.params.userId);
         this.getUserInfo(this.props.match.params.userId);
     }
 
@@ -60,4 +62,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile
+export default withRouter(Profile)

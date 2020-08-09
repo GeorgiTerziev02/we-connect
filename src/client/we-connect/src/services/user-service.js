@@ -10,11 +10,9 @@ const userService = {
     verifyToken: async (token) => {
         const promise = await fetch(`${url}/verify`, {
             method: 'POST',
-            body: JSON.stringify({
-                token
-            }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': token
             }
         })
 

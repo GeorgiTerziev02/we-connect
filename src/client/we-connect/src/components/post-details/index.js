@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import styles from './index.module.css'
 import getCookie from '../../utils/cookie'
 import Post from '../post'
 import Spinner from '../spinner'
 
-class PostDetails extends Component{
+class PostDetails extends Component {
     constructor(props) {
         super(props)
 
@@ -21,12 +22,12 @@ class PostDetails extends Component{
             }
         });
 
-        if(!promise.ok) {
+        if (!promise.ok) {
             this.props.history.push('/error')
         }
-        
+
         const data = await promise.json();
-        
+
 
         this.setState({
             post: data.post
@@ -55,4 +56,4 @@ class PostDetails extends Component{
     }
 }
 
-export default PostDetails
+export default withRouter(PostDetails)

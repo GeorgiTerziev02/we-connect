@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import styles from './index.module.css'
 import Title from '../title'
@@ -96,7 +97,7 @@ class SharePost extends Component {
             descriptionError,
             locationError
         } = this.state;
-        
+
 
         if (location && location.length > 100) {
             this.setState({
@@ -163,7 +164,7 @@ class SharePost extends Component {
             <div className={styles.container}>
                 <Title text="Share Post" />
                 <Form className={styles["share-post"]} onSubmit={this.submitHandler}>
-                    <ErrorMessage error={submitError} errorMessage={submitErrorMessage}/>
+                    <ErrorMessage error={submitError} errorMessage={submitErrorMessage} />
                     <Input
                         id="location"
                         error={locationError}
@@ -207,4 +208,4 @@ class SharePost extends Component {
     }
 }
 
-export default SharePost
+export default withRouter(SharePost)

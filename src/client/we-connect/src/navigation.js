@@ -19,7 +19,7 @@ class Navigation extends Component {
         const {
             loggedIn
         } = this.context
-        
+
         // TODO: Navigation guard
         return (
             <BrowserRouter>
@@ -27,13 +27,23 @@ class Navigation extends Component {
                     <Header />
                     <main>
                         <Switch>
-                            <Route path="/" exact><Redirect to="/posts"/></Route>
-                            <Route path="/user/:userId" component={Profile} />
-                            <Route path="/posts/:postId" component={PostDetails} />
-                            <Route path="/posts" component={Posts} />
-                            <Route path="/login" component={Login} />
-                            <Route path="/register" component={Register} />
-                            <Route path="/share-post" component={SharePost} />
+                            <Route path="/" exact><Redirect to="/posts" /></Route>
+                            <Route path="/posts" exact component={Posts} />
+                            <Route path="/user/:userId">
+                                {loggedIn ? (<Profile />) : (<Redirect to="/login" />)}
+                            </Route>
+                            <Route path="/posts/:postId">
+                                {loggedIn ? (<PostDetails />) : (<Redirect to="/login" />)}
+                            </Route>
+                            <Route path="/login">
+                                {loggedIn ? (<Redirect to="/" />) : (<Login />)}
+                            </Route>
+                            <Route path="/register">
+                                {loggedIn ? (<Redirect to="/" />) : (<Register />)}
+                            </Route>
+                            <Route path="/share-post">
+                                {loggedIn ? (<SharePost />) : (<Redirect to="/login" />)}
+                            </Route>
                             <Route path="*" component={NotFound} />
                         </Switch>
                     </main>
