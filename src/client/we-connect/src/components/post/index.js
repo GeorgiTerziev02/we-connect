@@ -1,11 +1,21 @@
 import React from 'react'
 import styles from './index.module.css'
 import Image from '../image'
+import { useHistory, useLocation } from 'react-router-dom'
 
 // TODO: Make post responsive for mobile phone
-const Post = ({ imageUrl, createdAt, description }) => {
+const Post = ({ _id, imageUrl, createdAt, description }) => {
+    const history = useHistory()
+    const location = useLocation();
+
+    const clickHandler = (e) => {
+        if (location.pathname !== `/posts/${_id}`) {
+            history.push(`/posts/${_id}`)
+        }
+    }
+
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={clickHandler}>
             <div>
                 Uploaded: {createdAt}
             </div>
