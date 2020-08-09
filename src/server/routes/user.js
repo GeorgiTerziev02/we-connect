@@ -152,7 +152,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/verify', async (req, res) => {
-    const token = req.body.token || '';
+    const token = req.headers.authorization || '';
     const data = await verifyToken(token)
 
     return res
