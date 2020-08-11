@@ -8,7 +8,6 @@ class Header extends Component {
     static contextType = UserContext
 
     logOut = () => {
-        // TODO: Destroy token ?
         this.context.logOut()
     }
 

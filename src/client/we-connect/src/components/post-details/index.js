@@ -5,6 +5,7 @@ import getCookie from '../../utils/cookie'
 import Post from '../post'
 import Spinner from '../spinner'
 import Comments from '../comments'
+import AddComment from '../add-comment'
 
 class PostDetails extends Component {
     constructor(props) {
@@ -47,10 +48,11 @@ class PostDetails extends Component {
         }
 
         const post = this.state.post;
-
+        
         return (
             <div className={styles["post-details"]}>
                 <Post {...post} />
+                <AddComment postId={post._id} />
                 <Comments comments={post.comments} />
             </div>
         )
