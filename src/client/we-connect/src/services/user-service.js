@@ -1,3 +1,5 @@
+import getCookie from '../utils/cookie'
+
 const url = 'http://localhost:4000/api'
 
 const userService = {
@@ -17,6 +19,17 @@ const userService = {
         })
 
         return await promise.json()
+    },
+    getById: async (userId) => {
+        const promise = await fetch(`${url}/posts/user/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("x-auth-token")}`
+            }
+        })
+
+        const data = await promise.json()
+
+        return data
     }
 }
 

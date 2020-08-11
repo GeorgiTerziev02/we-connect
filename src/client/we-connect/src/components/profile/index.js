@@ -5,6 +5,7 @@ import Title from '../title'
 import ProfileStats from '../profile-stats'
 import ProfileImage from '../profile-image'
 import getCookie from '../../utils/cookie'
+import userService from '../../services/user-service'
 
 class Profile extends Component {
     constructor(props) {
@@ -23,14 +24,11 @@ class Profile extends Component {
     }
 
     getUserInfo = async (userId) => {
-        const promise = await fetch(`http://localhost:4000/api/posts/user/${userId}`, {
-            headers: {
-                'Authorization': `Bearer ${getCookie("x-auth-token")}`
-            }
-        });
+        const data = await userService.getById(userId)
 
-        const data = await promise.json();
-        
+        if (data.error) {
+            return this.props.history.push('/error')
+        }
 
         this.setState({
             username: data.username,

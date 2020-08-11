@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styles from './index.module.css'
-import getCookie from '../../utils/cookie'
 import Post from '../post'
 import Spinner from '../spinner'
 import Comments from '../comments'
 import AddComment from '../add-comment'
+import postService from '../../services/post-service'
 
 class PostDetails extends Component {
     constructor(props) {
@@ -18,18 +18,11 @@ class PostDetails extends Component {
 
     // TODO: extract x-auth-token string
     getPost = async (postId) => {
-        const promise = await fetch(`http://localhost:4000/api/posts/${postId}`, {
-            headers: {
-                'Authorization': `Bearer ${getCookie("x-auth-token")}`
-            }
-        });
+        const data = await postService.getById(postId);
 
-        if (!promise.ok) {
+        if (data.error) {
             this.props.history.push('/error')
         }
-
-        const data = await promise.json();
-        console.log(data);
 
         this.setState({
             post: data.post
