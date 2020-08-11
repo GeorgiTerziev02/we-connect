@@ -20,7 +20,6 @@ class Navigation extends Component {
             loggedIn
         } = this.context
 
-        // TODO: Navigation guard
         return (
             <BrowserRouter>
                 <div className="App">

@@ -3,7 +3,6 @@ import styles from './index.module.css'
 import Image from '../image'
 import { useHistory, useLocation } from 'react-router-dom'
 
-// TODO: Make post responsive for mobile phone
 const Post = ({ _id, imageUrl, createdAt, description }) => {
     const history = useHistory()
     const location = useLocation();

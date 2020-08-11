@@ -6,6 +6,7 @@ import commentService from '../../services/comment-service'
 import { useHistory } from 'react-router-dom'
 import ErrorMessage from '../error-message'
 
+// TODO: Update comments after new comment is added
 const AddComment = ({ postId }) => {
     const [content, setContent] = useState('')
     const [contentError, setContentError] = useState(false)
