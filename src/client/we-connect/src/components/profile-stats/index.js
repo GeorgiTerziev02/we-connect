@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import styles from './index.module.css'
 import FollowButton from '../button/follow-button'
 import UserContext from '../../Context'
+import followService from '../../services/follow-service'
 
-const ProfileStats = ({ userId, followers, following, postsCount }) => {
+const ProfileStats = ({ update, userId, followers, following, postsCount }) => {
     const context = useContext(UserContext)
     const currentUserId = context.user.id;
     console.log(currentUserId)
@@ -11,6 +12,16 @@ const ProfileStats = ({ userId, followers, following, postsCount }) => {
     console.log('followers', followers.length)
 
     const buttonTitle = followers.includes(currentUserId) ? "Unfollow" : "Follow"
+
+    const clickHandler = async (e) => {
+        e.preventDefault()
+
+        const result = await followService.followUserById(userId);
+
+        if (result) {
+            update(userId);
+        }
+    }
 
     return (
         <div className={styles["stats-container"]}>
@@ -27,7 +38,7 @@ const ProfileStats = ({ userId, followers, following, postsCount }) => {
             {
                 JSON.stringify(currentUserId) === JSON.stringify(userId) ?
                     null :
-                    <FollowButton title={buttonTitle} />
+                    <FollowButton title={buttonTitle} onClick={clickHandler}/>
             }
         </div>
     )

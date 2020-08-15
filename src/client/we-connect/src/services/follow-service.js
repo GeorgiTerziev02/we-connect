@@ -18,3 +18,5 @@ const followService = {
         }
     }
 }
+
+export default followService

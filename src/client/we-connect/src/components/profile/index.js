@@ -54,7 +54,7 @@ class Profile extends Component {
             <div>
                 <Title text={username} />
                 <ProfileImage />
-                <ProfileStats userId={userId} followers={followers} following={following} postsCount={postsCount} />
+                <ProfileStats update={this.getUserInfo} userId={userId} followers={followers} following={following} postsCount={postsCount} />
                 <Posts posts={posts} />
             </div>
         )
