@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const errorMessages = require('../constants/errorMessages');
 const config = require('../config/config')[env];
-const { verifyToken } = require('../utils/auth')
+const { verifyToken, authenticate } = require('../utils/auth');
+const { searchUsers } = require('../controllers/users')
 
 const router = Router();
 
@@ -158,6 +159,16 @@ router.post('/verify', async (req, res) => {
     return res
         .status(data.status ? 200 : 401)
         .json(data);
+})
+
+router.get('/search/:search', async (req, res) => {
+    const params = req.params.search
+
+    const results = await searchUsers(params)
+
+    return res
+        .status(200)
+        .json(results);
 })
 
 module.exports = router;
