@@ -1,12 +1,12 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 
-const LikeButton = ({ title, onClick }) => {
+const DeleteButton = ({ title, onClick }) => {
     return (
-        <Button variant="outline-primary" onClick={onClick}>
+        <Button variant="danger" onClick={onClick}>
             {title}
         </Button>
     )
 }
 
-export default LikeButton
+export default DeleteButton
