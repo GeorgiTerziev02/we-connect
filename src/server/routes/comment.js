@@ -7,6 +7,7 @@ const router = Router();
 router.post('/:id', authenticate, async (req, res) => {
     const postId = req.params.id;
     const userId = req.userId;
+    
     const {
         content
     } = req.body;
