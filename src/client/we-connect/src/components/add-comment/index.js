@@ -17,7 +17,6 @@ const AddComment = ({ postId }) => {
     const history = useHistory()
 
     const handleContentBlur = () => {
-        console.log(content)
         if (!content) {
             setContentError(true)
             setContentErrorMessage('Comment content is required!')
@@ -36,11 +35,9 @@ const AddComment = ({ postId }) => {
         handleContentBlur()
 
         if (!contentError) {
-            console.log(contentError)
             const data = await commentService.create(postId, content)
 
             if (data.error) {
-                console.log('hiii')
                 setSubmitError(true)
                 setSubmitErrorMessage(data.error)
             } else {

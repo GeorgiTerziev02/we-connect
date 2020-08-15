@@ -23,22 +23,11 @@ class Profile extends Component {
         this.getUserInfo(this.props.match.params.userId)
     }
 
-    // shouldComponentUpdate() {
-    //     const {
-    //         userId
-    //     } = this.state
-
-    //     if (JSON.stringify(userId) === JSON.stringify(this.props.match.params.userId)) {
-    //         return false 
-    //     } 
-    //     return true
-    // }
-
     componentDidUpdate() {
-        console.log(111)
         const {
             userId
         } = this.state
+        
         if (JSON.stringify(this.props.match.params.userId) !== JSON.stringify(userId)) {
             this.getUserInfo(this.props.match.params.userId)
         }
