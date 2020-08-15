@@ -11,9 +11,10 @@ class Profile extends Component {
         super(props)
         
         this.state = {
+            userId: null,
             username: null,
-            followers: null,
-            following: null,
+            followers: [],
+            following: [],
             posts: null
         }
     }
@@ -24,21 +25,23 @@ class Profile extends Component {
 
     getUserInfo = async (userId) => {
         const data = await userService.getById(userId)
-
+        
         if (data.error) {
             return this.props.history.push('/error')
         }
 
         this.setState({
+            userId: data._id,
             username: data.username,
-            followers: data.followers ? data.followers.length : 0,
-            following: data.following ? data.following.length : 0,
+            followers: data.followers ? data.followers : [],
+            following: data.following ? data.following : [],
             posts: data.posts
         });
     }
 
     render() {
         const {
+            userId,
             username,
             followers,
             following,
@@ -51,7 +54,7 @@ class Profile extends Component {
             <div>
                 <Title text={username} />
                 <ProfileImage />
-                <ProfileStats followers={followers} following={following} postsCount={postsCount} />
+                <ProfileStats userId={userId} followers={followers} following={following} postsCount={postsCount} />
                 <Posts posts={posts} />
             </div>
         )
