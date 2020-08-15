@@ -3,7 +3,7 @@ import styles from './index.module.css'
 import Image from '../image'
 import { useHistory, useLocation } from 'react-router-dom'
 
-const Post = ({ _id, imageUrl, createdAt, description }) => {
+const Post = ({ _id, imageUrl, likes, createdAt, description }) => {
     const history = useHistory()
     const location = useLocation();
 
@@ -14,12 +14,12 @@ const Post = ({ _id, imageUrl, createdAt, description }) => {
     }
 
     return (
-        <div className={styles.card} onClick={clickHandler}>
+        <div className={styles.card}>
             <div>
                 Uploaded: {createdAt}
             </div>
             <hr />
-            <Image imageUrl={imageUrl} />
+            <Image imageUrl={imageUrl} onClick={clickHandler} />
             <hr />
             <div className={styles.container}>
                 <p>{description}</p>

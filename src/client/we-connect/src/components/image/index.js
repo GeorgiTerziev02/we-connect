@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from './index.module.css'
 
-const Image = ({imageUrl}) => {
+const Image = ({imageUrl, onClick}) => {
     return (
-        <img src={imageUrl} className={styles["img-style"]} alt="" style={{
+        <img src={imageUrl} className={styles["img-style"]} onClick={onClick} alt="" style={{
         width: '100%'
         }} />
     )
