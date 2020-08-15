@@ -30,6 +30,17 @@ const userService = {
         const data = await promise.json()
 
         return data
+    },
+    findByName: async (searchParams) => {
+        const promise = await fetch(`${url}/search/${searchParams}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("x-auth-token")}`
+            }
+        })
+
+        const data = await promise.json()
+
+        return data
     }
 }
 

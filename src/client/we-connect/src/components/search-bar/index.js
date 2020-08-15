@@ -8,14 +8,15 @@ const SearchBar = () => {
     const [searchParams, setSearchParams] = useState('')
     const history = useHistory();
 
-    const clickHandler = (e) => {
+    const submitHandler = (e) => {
         e.preventDefault();
         
-        history.push(`/search/?${searchParams}`)
+        history.push(`/search/${searchParams}`)
+        setSearchParams('')
     }
 
     return (
-        <Form inline>
+        <Form inline onSubmit={submitHandler}>
             <FormControl
                 type="text"
                 placeholder="Search"
@@ -23,7 +24,7 @@ const SearchBar = () => {
                 value={searchParams}
                 onChange={(e) => setSearchParams(e.target.value)}
             />
-            <Button variant="outline-info" onClick={clickHandler}>Search</Button>
+            <Button variant="outline-info" type="submit">Search</Button>
         </Form>
     )
 }
