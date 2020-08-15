@@ -1,3 +1,13 @@
 .post-details{
     margin: 10px;
 }
+
+.container{
+        box-shadow: 0 4px 8px 0 rgba(5,5,5,5.2);
+        transition: 0.3s;
+        width: 100%;
+        max-width: 500px;
+        height: 50%;
+        margin: auto;
+        margin-bottom: 20px;
+}

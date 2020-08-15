@@ -35,6 +35,16 @@ const postService = {
         } else {
             return true
         }
+    },
+    deletePostById: async (postId) => {
+        const promise = await fetch(`${url}${postId}`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${getCookie("x-auth-token")}`
+            }
+        })
+
+        const data = await promise.json();
     }
 }
 

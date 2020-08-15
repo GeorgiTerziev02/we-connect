@@ -7,15 +7,20 @@ import Comments from '../comments'
 import AddComment from '../add-comment'
 import postService from '../../services/post-service'
 import LikePost from '../like-post'
+import UserContext from '../../Context'
+import DeletePost from '../delete-post'
 
 class PostDetails extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            post: null
+            post: null,
+            userId: null
         }
     }
+
+    static contextType = UserContext
 
     getPost = async (postId) => {
         const data = await postService.getById(postId);
@@ -42,8 +47,10 @@ class PostDetails extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.postId)
         this.getPost(this.props.match.params.postId)
+        this.setState({
+            userId: this.context.user.id
+        })
     }
 
     render() {
@@ -53,12 +60,19 @@ class PostDetails extends Component {
             )
         }
 
-        const post = this.state.post;
-        
+        const {
+            post,
+            userId
+        } = this.state
+        console.log(this.context);
+
         return (
             <div className={styles["post-details"]}>
                 <Post {...post} />
-                <LikePost likes={post.likes.length} onClick={this.likeHandler} />
+                <div className={styles.container}>
+                    <LikePost likes={post.likes.length} onClick={this.likeHandler} />
+                    {JSON.stringify(post.creator) === JSON.stringify(userId) ? <DeletePost /> : null}
+                </div>
                 <AddComment postId={post._id} />
                 <Comments comments={post.comments} />
             </div>
