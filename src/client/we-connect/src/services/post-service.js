@@ -44,7 +44,11 @@ const postService = {
             }
         })
 
-        const data = await promise.json();
+        if (promise.status === 204) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

@@ -41,8 +41,17 @@ class PostDetails extends Component {
         const data = await postService.likePost(postId)
         console.log(data);
 
-        if (!data.error) {
+        if (data) {
             this.getPost(postId)
+        }
+    }
+
+    deleteHandler = async (e) => {
+        const postId = this.state.post._id
+        const result = await postService.deletePostById(postId);
+
+        if (result) {
+            this.props.history.push(`/user/${this.context.user.id}`)
         }
     }
 
@@ -71,7 +80,10 @@ class PostDetails extends Component {
                 <Post {...post} />
                 <div className={styles.container}>
                     <LikePost likes={post.likes.length} onClick={this.likeHandler} />
-                    {JSON.stringify(post.creator) === JSON.stringify(userId) ? <DeletePost /> : null}
+                    {
+                        JSON.stringify(post.creator) === JSON.stringify(userId) ?
+                        <DeletePost onClickHandler={this.deleteHandler} /> : null
+                    }
                 </div>
                 <AddComment postId={post._id} />
                 <Comments comments={post.comments} />
