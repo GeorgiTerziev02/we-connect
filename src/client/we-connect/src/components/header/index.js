@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
 import UserContext from '../../Context';
+import SearchBar from '../search-bar';
 
 class Header extends Component {
     static contextType = UserContext
@@ -28,6 +29,7 @@ class Header extends Component {
                     <Nav>
                         {loggedIn ?
                             (<Fragment>
+                                <SearchBar />
                                 <Nav.Link as={Link} to="/share-post">Share</Nav.Link>
                                 <Nav.Link as={Link} to={`/user/${user.id}`}>Profile</Nav.Link>
                                 <Nav.Link as={Link} to="/" onClick={this.logOut}>Logout</Nav.Link>
