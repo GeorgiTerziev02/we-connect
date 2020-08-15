@@ -37,9 +37,7 @@ class PostDetails extends Component {
     likeHandler = async (e) => {
         e.preventDefault()
         const postId = this.state.post._id
-        console.log('3131', postId)
         const data = await postService.likePost(postId)
-        console.log(data);
 
         if (data) {
             this.getPost(postId)
@@ -73,7 +71,6 @@ class PostDetails extends Component {
             post,
             userId
         } = this.state
-        console.log(this.context);
 
         return (
             <div className={styles["post-details"]}>

@@ -24,7 +24,13 @@ class Profile extends Component {
     }
 
     componentDidUpdate() {
-        this.getUserInfo(this.props.match.params.userId)
+        const {
+            userId
+        } = this.state
+        
+        if (JSON.stringify(this.props.match.params.userId) !== JSON.stringify(userId)) {
+            this.getUserInfo(this.props.match.params.userId)
+        }
     }
 
     getUserInfo = async (userId) => {

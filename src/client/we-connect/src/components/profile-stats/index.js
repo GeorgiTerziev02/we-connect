@@ -7,9 +7,6 @@ import followService from '../../services/follow-service'
 const ProfileStats = ({ update, userId, followers, following, postsCount }) => {
     const context = useContext(UserContext)
     const currentUserId = context.user.id;
-    console.log(currentUserId)
-    console.log('following', following.length)
-    console.log('followers', followers.length)
 
     const buttonTitle = followers.includes(currentUserId) ? "Unfollow" : "Follow"
 
