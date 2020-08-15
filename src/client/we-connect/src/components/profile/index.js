@@ -20,7 +20,11 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        this.getUserInfo(this.props.match.params.userId);
+        this.getUserInfo(this.props.match.params.userId)
+    }
+
+    componentDidUpdate() {
+        this.getUserInfo(this.props.match.params.userId)
     }
 
     getUserInfo = async (userId) => {
