@@ -3,9 +3,11 @@ import styles from './index.module.css'
 import FollowButton from '../button/follow-button'
 import UserContext from '../../Context'
 import followService from '../../services/follow-service'
+import { useHistory } from 'react-router-dom'
 
 const ProfileStats = ({ update, userId, followers, following, postsCount }) => {
     const context = useContext(UserContext)
+    const history = useHistory()
     const currentUserId = context.user.id;
 
     const buttonTitle = followers.includes(currentUserId) ? "Unfollow" : "Follow"
@@ -20,13 +22,19 @@ const ProfileStats = ({ update, userId, followers, following, postsCount }) => {
         }
     }
 
+    const followingHandler = () => {
+        if (currentUserId === userId) {
+            history.push('/following')
+        }
+    }
+
     return (
         <div className={styles["stats-container"]}>
             <div className={styles.stat}>
                 Followers: {followers.length + " "}
                 <div></div>
             </div>
-            <div className={styles.stat}>
+            <div className={styles["following-stat"]} onClick={followingHandler}>
                 Following: {following.length}
             </div>
             <div className={styles.stat}>

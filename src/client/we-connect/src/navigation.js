@@ -13,6 +13,7 @@ import PostDetails from './components/post-details';
 import UserContext from './Context';
 import SearchResults from './components/search-results';
 import Home from './components/home';
+import Following from './components/following';
 
 // TODO: Try lazy loading
 class Navigation extends Component {
@@ -31,6 +32,9 @@ class Navigation extends Component {
                             <Route path="/" exact component={Home}></Route>
                             <Route path="/search/:params">
                                 {loggedIn ? (<SearchResults />) : (<Redirect to="/login" />)}
+                            </Route>
+                            <Route path="/following">
+                                {loggedIn ? (<Following />) : (<Redirect to="/login" />)}
                             </Route>
                             <Route path="/user/:userId">
                                 {loggedIn ? (<Profile />) : (<Redirect to="/login" />)}

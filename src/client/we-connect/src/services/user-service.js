@@ -41,6 +41,16 @@ const userService = {
         const data = await promise.json()
 
         return data
+    },
+    following: async () => {
+        const promise = await fetch(`${url}/follow/following`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("x-auth-token")}`
+            }
+        })
+
+        const data = await promise.json()
+        return data
     }
 }
 
