@@ -70,9 +70,13 @@ const getRecent = async (userId) => {
         options: { limit: 1, sort: { '_id': -1 } }
       }
     }).lean();
-
+    
     const posts = data.following.map(u => {
-      return u.posts[0];
+      if (u.posts.length !== 0) {
+        return u.posts[0];
+      }
+    }).filter(function (el) {
+      return el != null
     })
 
     return posts;
