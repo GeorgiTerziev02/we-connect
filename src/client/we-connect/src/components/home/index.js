@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
-import styles from './index.module.css'
-import SearchBar from '../search-bar'
 import UserContext from '../../Context'
+import LoggedInHomePage from '../logged-in-home-page'
 import NotLoggedInHomePage from '../not-logged-in-home-page'
 
 const Home = () => {
@@ -13,9 +12,7 @@ const Home = () => {
         )
     } else {
         return (
-            <div className={styles.body}>
-                Hello, {context.user.username}
-            </div>
+            <LoggedInHomePage />
         )
     }
 }
