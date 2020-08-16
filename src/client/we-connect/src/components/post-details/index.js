@@ -75,14 +75,14 @@ class PostDetails extends Component {
             post,
             userId
         } = this.state
-
+        
         return (
             <div className={styles["post-details"]}>
                 <Post {...post} />
                 <div className={styles.container}>
                     <LikePost likes={post.likes.length} onClick={this.likeHandler} />
                     {
-                        JSON.stringify(post.creator) === JSON.stringify(userId) ?
+                        JSON.stringify(post.creator._id) === JSON.stringify(userId) ?
                         <DeletePost onClickHandler={this.deleteHandler} /> : null
                     }
                 </div>
