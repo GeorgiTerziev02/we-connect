@@ -99,6 +99,7 @@ const getPostsByUserId = async (userId) => {
       match: {
         isDeleted: false
       },
+      options: { sort: { '_id': -1 } },
       populate: {
         path: 'creator',
         select:'-password -followers -following -posts'
@@ -127,6 +128,7 @@ const getPostById = async (postId) => {
       .populate({
         path: 'comments creator',
         select: '-password -followers -following -posts',
+        options: { sort: { '_id': -1 } },
         populate: { path: 'creator' }
       }).lean();
 
