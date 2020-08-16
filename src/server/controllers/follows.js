@@ -40,6 +40,32 @@ const followUserById = async (followRequesterId, followingId) => {
     }
 };
 
+const getFollowing = async (userId) => {
+    try {
+        const user = await User.findById(userId)
+            .select('-password -posts -followers')
+            .populate({
+                path: 'following',
+                select: '-password',
+                populate: {
+                    path: 'posts',
+                    select: '-creator -description -imageUrl -location -createdAt -comments -likes',
+                    match: {
+                        isDeleted: false
+                    }
+                }
+            }).lean();
+
+        return user.following
+    } catch (error) {
+        console.error(error)
+        return {
+            error: errorMessages.invalidUserId
+        }
+    }
+}
+
 module.exports = {
-    followUserById
+    followUserById,
+    getFollowing
 }

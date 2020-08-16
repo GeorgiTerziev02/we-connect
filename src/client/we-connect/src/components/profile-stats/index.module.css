@@ -6,3 +6,9 @@
     display: inline-block;
     vertical-align: middle;
 }
+.following-stat{
+        padding: 5px;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+}
