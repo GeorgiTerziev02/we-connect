@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/header'
 import Footer from './components/footer'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
-import Posts from './components/posts'
+//import Posts from './components/posts'
 import Login from './components/login';
 import Register from './components/register';
 import SharePost from './components/share-post'
@@ -29,7 +29,6 @@ class Navigation extends Component {
                     <main>
                         <Switch>
                             <Route path="/" exact component={Home}></Route>
-                            <Route path="/posts" exact component={Posts} />
                             <Route path="/search/:params">
                                 {loggedIn ? (<SearchResults />) : (<Redirect to="/login" />)}
                             </Route>
