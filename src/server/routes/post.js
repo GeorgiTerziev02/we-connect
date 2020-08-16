@@ -1,9 +1,19 @@
 const { Router } = require('express');
 const formidable = require('formidable');
 const { authenticate } = require('../utils/auth');
-const { createPost, getPostsByUserId, getPostById, likePost, editPostById, deletePostById } = require('../controllers/posts');
+const { createPost, getRecent, getPostsByUserId, getPostById, likePost, editPostById, deletePostById } = require('../controllers/posts');
 
 const router = Router();
+
+router.get('/recent', authenticate, async (req, res) => {
+    const userId = req.userId
+
+    const result = await getRecent(userId)
+    
+    return res
+        .status(result.error ? 400 : 200)
+        .json(result);
+})
 
 router.get('/user/:id', authenticate, async (req, res) => {
     const userId = req.params.id;
