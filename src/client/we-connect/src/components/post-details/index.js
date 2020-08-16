@@ -28,7 +28,6 @@ class PostDetails extends Component {
         if (data.error) {
             this.props.history.push('/error')
         }
-        console.log(data)
 
         this.setState({
             post: data.post

@@ -16,8 +16,6 @@ const AddComment = ({ postId, handler }) => {
         if (!content) {
             setContentError(true)
             setContentErrorMessage('Comment content is required!')
-            console.log(contentError)
-            console.log(content)
         } else if(content.length > 100){
             setContentError(true)
             setContentErrorMessage('Comment length must be less than 100 symbols!')
