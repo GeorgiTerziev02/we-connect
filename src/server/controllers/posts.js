@@ -59,7 +59,7 @@ const createPost = (description, location, creator, image, callback) => {
 
 const getRecent = async (userId) => {
   try {
-    const posts = await User.findById(userId).select('-password -posts -followers').populate({
+    const data = await User.findById(userId).select('-password -posts -followers').populate({
       path: 'following',
       select: '-password -followers -following',
       populate: {
@@ -70,11 +70,10 @@ const getRecent = async (userId) => {
         options: { limit: 1, sort: { '_id': -1 } }
       }
     }).lean();
-    console.log(posts)
 
-    if (!posts) {
-      return [];
-    }
+    const posts = data.following.map(u => {
+      return u.posts[0];
+    })
 
     return posts;
   } catch (err) {
