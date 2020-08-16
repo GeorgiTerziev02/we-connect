@@ -53,6 +53,10 @@ class PostDetails extends Component {
         }
     }
 
+    submitCommentHandler = async () => {
+        this.getPost(this.props.match.params.postId)
+    }
+
     componentDidMount() {
         this.getPost(this.props.match.params.postId)
         this.setState({
@@ -82,7 +86,7 @@ class PostDetails extends Component {
                         <DeletePost onClickHandler={this.deleteHandler} /> : null
                     }
                 </div>
-                <AddComment postId={post._id} />
+                <AddComment postId={post._id} handler={this.submitCommentHandler} />
                 <Comments comments={post.comments} />
             </div>
         )

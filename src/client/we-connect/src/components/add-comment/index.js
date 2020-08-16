@@ -4,10 +4,8 @@ import SubmitButton from '../button/submit-button'
 import TextArea from '../text-area'
 import commentService from '../../services/comment-service'
 import { useHistory } from 'react-router-dom'
-import ErrorMessage from '../error-message'
 
-// TODO: Update comments after new comment is added
-const AddComment = ({ postId }) => {
+const AddComment = ({ postId, handler }) => {
     const [content, setContent] = useState('')
     const [contentError, setContentError] = useState(false)
     const [contentErrorMessage, setContentErrorMessage] = useState('')
@@ -41,7 +39,7 @@ const AddComment = ({ postId }) => {
                 setSubmitError(true)
                 setSubmitErrorMessage(data.error)
             } else {
-                history.push(`/posts/${postId}`)
+                handler()
             }
         }
     }
