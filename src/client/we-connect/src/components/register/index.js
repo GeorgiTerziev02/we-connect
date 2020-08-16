@@ -101,7 +101,7 @@ class Register extends Component {
         if (password !== rePassword) {
             this.setState({
                 rePasswordError: true,
-                rePasswordErrorMessage: 'The two passwords does not match!'
+                rePasswordErrorMessage: 'The two passwords do not match!'
             })
         } else {
             this.setState({
@@ -166,7 +166,7 @@ class Register extends Component {
             if (password !== rePassword) {
                 this.setState({
                     rePasswordError: true,
-                    rePasswordErrorMessage: 'Re-Password is required!',
+                    rePasswordErrorMessage: 'The two passwords do not match!',
                     submitError: false
                 })
             }
