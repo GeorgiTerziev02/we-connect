@@ -2,6 +2,7 @@ import getCookie from '../utils/cookie'
 
 const url = 'http://localhost:4000/api'
 
+// TODO: Error handling 
 const userService = {
     login: async (username, password) => {
         return await auth(username, password, 'login')

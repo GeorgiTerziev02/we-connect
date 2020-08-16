@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from './index.module.css'
 import userService from '../../services/user-service'
 import ProfileResult from '../profile-result'
 import { useEffect } from 'react'
@@ -16,7 +17,7 @@ const Following = () => {
     }, [])
 
     return (
-        <div>
+        <div className={styles.container}>
             {
                 following.length === 0 ?
                     (<p>Follows somebody...</p>)
