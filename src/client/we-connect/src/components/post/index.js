@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './index.module.css'
 import Image from '../image'
 import { useHistory, useLocation } from 'react-router-dom'
+import Moment from 'react-moment'
 
 const Post = ({ _id, imageUrl, likes, createdAt, description }) => {
     const history = useHistory()
@@ -16,7 +17,7 @@ const Post = ({ _id, imageUrl, likes, createdAt, description }) => {
     return (
         <div className={styles.card}>
             <div>
-                Uploaded: {createdAt}
+                Uploaded: <Moment format="HH:mm DD/MM/YY">{createdAt}</Moment>
             </div>
             <hr />
             <Image imageUrl={imageUrl} onClick={clickHandler} />

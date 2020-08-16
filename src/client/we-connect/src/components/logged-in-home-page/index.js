@@ -22,7 +22,7 @@ const LoggedInHomePage = () => {
 
     return (
         <div className={styles.body}>
-            <Title text={`Hello, ${context.user.username}! See Your followings recent feed:`} />
+            <Title text={`Hello, ${context.user.username}! See Your followings recent posts:`} />
             <small>Follow more people for more amazing content</small>
             <Posts posts={posts} />
         </div>
