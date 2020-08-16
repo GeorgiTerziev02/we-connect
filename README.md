@@ -45,5 +45,4 @@ The project is using:
 - Profile Settings
 - Profile Picture
 - Improve searching profiles
-- Initial Home Page
 - One-on-one chat with Socket.io
