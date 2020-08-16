@@ -57,6 +57,37 @@ const createPost = (description, location, creator, image, callback) => {
   });
 };
 
+const getRecent = async (userId) => {
+  try {
+    const data = await User.findById(userId).select('-password -posts -followers').populate({
+      path: 'following',
+      select: '-password -followers -following',
+      populate: {
+        path: 'posts',
+        match: {
+          isDeleted: false
+        },
+        options: { limit: 1, sort: { '_id': -1 } }
+      }
+    }).lean();
+    
+    const posts = data.following.map(u => {
+      if (u.posts.length !== 0) {
+        return u.posts[0];
+      }
+    }).filter(function (el) {
+      return el != null
+    })
+
+    return posts;
+  } catch (err) {
+    console.error(err);
+    return {
+      error: errorMessages.invalidUserId
+    };
+  }
+}
+
 const getPostsByUserId = async (userId) => {
   try {
     const posts = await User.findById(userId).select('-password').populate({
@@ -65,7 +96,7 @@ const getPostsByUserId = async (userId) => {
         isDeleted: false
       }
     }).lean();
-    
+
     if (!posts) {
       return {
         error: errorMessages.invalidUserId
@@ -83,7 +114,13 @@ const getPostsByUserId = async (userId) => {
 
 const getPostById = async (postId) => {
   try {
-    const post = await Post.findOne({_id: postId, isDeleted: false}).populate('comments').lean();
+    const post = await Post
+      .findOne({ _id: postId, isDeleted: false })
+      .populate({
+        path: 'comments',
+        populate: { path: 'creator' }
+      }).lean();
+
     if (!post) {
       return {
         error: errorMessages.invalidPostId
@@ -111,13 +148,13 @@ const likePost = async (postId, userId) => {
 
   try {
     if (JSON.stringify(post.likes).includes(userId.toString())) {
-      await Post.findByIdAndUpdate(postId, { $pullAll: {likes: [userId] } });
+      await Post.findByIdAndUpdate(postId, { $pullAll: { likes: [userId] } });
       return {
         message: responseMessages.disliked
       }
     } else {
       await Post.findByIdAndUpdate(postId, { $push: { likes: userId } });
-  
+
       return {
         message: responseMessages.liked
       }
@@ -138,11 +175,11 @@ const editPostById = async (postId, userId, description, location) => {
       error: errorMessages.invalidPostId
     }
   }
-  
+
   if (JSON.stringify(post.creator) !== JSON.stringify(userId)) {
     return {
       error: errorMessages.userIdIsNotPostCreator
-    } 
+    }
   }
 
   if (!description || description.length > 2000) {
@@ -159,7 +196,7 @@ const editPostById = async (postId, userId, description, location) => {
 
   try {
     await Post.findByIdAndUpdate(postId, { description, location });
-    
+
     return {
       message: responseMessages.successfulUpdate
     }
@@ -187,8 +224,8 @@ const deletePostById = async (postId, userId) => {
   }
 
   try {
-    await Post.findByIdAndUpdate(postId, {isDeleted: true});
-    
+    await Post.findByIdAndUpdate(postId, { isDeleted: true });
+
     return {
       message: responseMessages.successfulDelete
     }
@@ -203,6 +240,7 @@ const deletePostById = async (postId, userId) => {
 
 module.exports = {
   createPost,
+  getRecent,
   getPostById,
   getPostsByUserId,
   editPostById,

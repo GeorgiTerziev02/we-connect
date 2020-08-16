@@ -49,6 +49,22 @@ const postService = {
         } else {
             return false
         }
+    },
+    getRecent: async () => {
+        const promise = await fetch(`${url}recent`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("x-auth-token")}`
+            }
+        })
+        console.log(promise)
+        if (!promise.ok) {
+            return []
+        }
+
+        const data = await promise.json()
+        console.log(data)
+
+        return data
     }
 }
 

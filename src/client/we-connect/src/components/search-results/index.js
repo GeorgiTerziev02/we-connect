@@ -24,7 +24,8 @@ const SearchResults = () => {
             <Title text="Search results" />
             <ListGroup>
                 {
-                    users.map(u => <ProfileResult key={u._id} {...u}/>)
+                    users.length === 0 ? (<div>No Results</div>) :
+                    (users.map(u => <ProfileResult key={u._id} {...u}/>))
                 }
             </ListGroup>
         </div>

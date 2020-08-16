@@ -10,7 +10,7 @@ const Comments = ({ comments }) => {
             {
                 comments ?
                     (comments.length !== 0 ?
-                        (comments.map(c => <Comment key={c._id} content={c.content} createdAt={c.createdAt} creator={c.creator} />))
+                        (comments.map(c => <Comment key={c._id} content={c.content} createdAt={c.createdAt} creator={c.creator.username} />))
                         : ("No Comments"))
                     : (<Spinner />)
             }

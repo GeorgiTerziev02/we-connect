@@ -9,8 +9,8 @@ const Comment = ({ content, createdAt, creator }) => {
                 {content}
                     <br />
                 <small>
-                    {createdAt}
-                    <strong className={styles.user}>{creator}</strong>
+                    At {createdAt} 
+                    <strong className={styles.user}>by {creator}</strong>
                 </small>
                 <hr />
             </Card.Body>

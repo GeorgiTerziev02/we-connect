@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const errorMessages = require('../constants/errorMessages');
 const config = require('../config/config')[env];
 const { verifyToken, authenticate } = require('../utils/auth');
-const { searchUsers } = require('../controllers/users')
+const { searchUsers } = require('../controllers/users');
+const auth = require('../utils/auth');
 
 const router = Router();
 
@@ -161,7 +162,7 @@ router.post('/verify', async (req, res) => {
         .json(data);
 })
 
-router.get('/search/:search', async (req, res) => {
+router.get('/search/:search', authenticate, async (req, res) => {
     const params = req.params.search
 
     const results = await searchUsers(params)
