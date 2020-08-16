@@ -56,13 +56,12 @@ const postService = {
                 'Authorization': `Bearer ${getCookie("x-auth-token")}`
             }
         })
-        console.log(promise)
+        
         if (!promise.ok) {
             return []
         }
 
         const data = await promise.json()
-        console.log(data)
 
         return data
     }

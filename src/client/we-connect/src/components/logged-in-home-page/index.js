@@ -11,7 +11,6 @@ const LoggedInHomePage = () => {
 
     const getRecentPosts = async () => {
         const data = await postService.getRecent()
-        console.log(data)
 
         setPosts(data)
     }
