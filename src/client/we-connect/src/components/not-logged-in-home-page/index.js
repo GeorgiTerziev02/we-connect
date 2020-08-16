@@ -5,10 +5,10 @@ import LinkButton from '../button/link-button'
 const NotLoggedInHomePage = () => {
     return (
         <h3>
-            <span>Sign up</span>
+            <span>Connect</span>
             <span>and</span>
             <span>Start exploring</span>
-            <p><LinkButton title="Register" to="/register" />   <LinkButton title="Login" to="/login" /></p>
+            <p><LinkButton title="Register" to="/register" />  |  <LinkButton title="Login" to="/login" /></p>
         </h3>
     )
 }
