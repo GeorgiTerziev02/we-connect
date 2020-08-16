@@ -67,7 +67,11 @@ const getRecent = async (userId) => {
         match: {
           isDeleted: false
         },
-        options: { limit: 1, sort: { '_id': -1 } }
+        options: { limit: 1, sort: { '_id': -1 } },
+        populate: {
+          path: 'creator',
+          select: '-password -followers -posts -following'
+        }
       }
     }).lean();
     
@@ -94,6 +98,10 @@ const getPostsByUserId = async (userId) => {
       path: 'posts',
       match: {
         isDeleted: false
+      },
+      populate: {
+        path: 'creator',
+        select:'-password -followers -following -posts'
       }
     }).lean();
 
@@ -102,7 +110,7 @@ const getPostsByUserId = async (userId) => {
         error: errorMessages.invalidUserId
       };
     }
-
+    
     return posts;
   } catch (err) {
     console.error(err);
@@ -117,7 +125,8 @@ const getPostById = async (postId) => {
     const post = await Post
       .findOne({ _id: postId, isDeleted: false })
       .populate({
-        path: 'comments',
+        path: 'comments creator',
+        select: '-password -followers -following -posts',
         populate: { path: 'creator' }
       }).lean();
 
