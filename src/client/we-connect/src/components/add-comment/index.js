@@ -3,7 +3,7 @@ import styles from './index.module.css'
 import SubmitButton from '../button/submit-button'
 import TextArea from '../text-area'
 import commentService from '../../services/comment-service'
-import { useHistory } from 'react-router-dom'
+import ErrorMessage from '../error-message'
 
 const AddComment = ({ postId, handler }) => {
     const [content, setContent] = useState('')
@@ -12,12 +12,12 @@ const AddComment = ({ postId, handler }) => {
     const [submitError, setSubmitError] = useState(false)
     const [submitErrorMessage, setSubmitErrorMessage] = useState('')
 
-    const history = useHistory()
-
     const handleContentBlur = () => {
         if (!content) {
             setContentError(true)
             setContentErrorMessage('Comment content is required!')
+            console.log(contentError)
+            console.log(content)
         } else if(content.length > 100){
             setContentError(true)
             setContentErrorMessage('Comment length must be less than 100 symbols!')
@@ -30,8 +30,6 @@ const AddComment = ({ postId, handler }) => {
     const submitHandler = async (event) => {
         event.preventDefault();
 
-        handleContentBlur()
-
         if (!contentError) {
             const data = await commentService.create(postId, content)
 
@@ -39,6 +37,9 @@ const AddComment = ({ postId, handler }) => {
                 setSubmitError(true)
                 setSubmitErrorMessage(data.error)
             } else {
+                setSubmitError(false)
+                setContentError(false)
+                setContent('')
                 handler()
             }
         }
@@ -46,7 +47,7 @@ const AddComment = ({ postId, handler }) => {
 
     return (
         <form className={styles["input-form"]} onSubmit={submitHandler}>
-            {/* <ErrorMessage error={submitError} errorMessage={submitErrorMessage} /> */}
+            <ErrorMessage error={submitError} errorMessage={submitErrorMessage} />
             <TextArea
                 id="content"
                 name="content"
