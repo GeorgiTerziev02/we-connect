@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Not found component should render not found component 1`] = `
+<div
+  className="container"
+>
+  <img
+    className="img-fluid"
+    src="Image"
+  />
+  <div
+    className="container"
+  >
+    <a
+      href="/"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        type="button"
+      >
+        Go to posts feed
+      </button>
+    </a>
+  </div>
+</div>
+`;

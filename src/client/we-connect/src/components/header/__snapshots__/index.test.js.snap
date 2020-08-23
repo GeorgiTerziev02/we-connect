@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Component should render authenticated links 1`] = `
+<nav
+  className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top fixed-top"
+>
+  <a
+    className="navbar-brand"
+    href="/"
+    onClick={[Function]}
+  >
+    <img
+      alt=""
+      src="https://res.cloudinary.com/dlgtvkmfb/image/upload/c_scale,h_36/v1594649995/weconnect_rmfzhf.png"
+    />
+  </a>
+  <button
+    aria-controls="responsive-navbar-nav"
+    aria-label="Toggle navigation"
+    className="navbar-toggler collapsed"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    aria-expanded={null}
+    className="navbar-collapse collapse"
+    id="responsive-navbar-nav"
+  >
+    <div
+      className="mr-auto navbar-nav"
+      onKeyDown={[Function]}
+    >
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/"
+        onClick={[Function]}
+      >
+        We Connect
+      </a>
+    </div>
+    <div
+      className="navbar-nav"
+      onKeyDown={[Function]}
+    >
+      <form
+        className="form-inline"
+        onSubmit={[Function]}
+      >
+        <input
+          className="mr-sm-2 form-control"
+          onChange={[Function]}
+          placeholder="Search"
+          type="text"
+          value=""
+        />
+        <button
+          className="btn btn-outline-info"
+          disabled={false}
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/share-post"
+        onClick={[Function]}
+      >
+        Share
+      </a>
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/user/3123123"
+        onClick={[Function]}
+      >
+        Profile
+      </a>
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/"
+        onClick={[Function]}
+      >
+        Logout
+      </a>
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Header Component should render without authenticated links 1`] = `
+<nav
+  className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top fixed-top"
+>
+  <a
+    className="navbar-brand"
+    href="/"
+    onClick={[Function]}
+  >
+    <img
+      alt=""
+      src="https://res.cloudinary.com/dlgtvkmfb/image/upload/c_scale,h_36/v1594649995/weconnect_rmfzhf.png"
+    />
+  </a>
+  <button
+    aria-controls="responsive-navbar-nav"
+    aria-label="Toggle navigation"
+    className="navbar-toggler collapsed"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    aria-expanded={null}
+    className="navbar-collapse collapse"
+    id="responsive-navbar-nav"
+  >
+    <div
+      className="mr-auto navbar-nav"
+      onKeyDown={[Function]}
+    >
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/"
+        onClick={[Function]}
+      >
+        We Connect
+      </a>
+    </div>
+    <div
+      className="navbar-nav"
+      onKeyDown={[Function]}
+    >
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/register"
+        onClick={[Function]}
+      >
+        Register
+      </a>
+      <a
+        className="nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/login"
+        onClick={[Function]}
+      >
+        Login
+      </a>
+    </div>
+  </div>
+</nav>
+`;
