@@ -10,12 +10,8 @@ const followService = {
                 'Authorization': `Bearer ${getCookie("x-auth-token")}`
             }
         })
-
-        if (promise.status === 201) {
-            return true
-        } else {
-            return false
-        }
+        
+        return promise.status === 201
     }
 }
 
