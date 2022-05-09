@@ -16,9 +16,7 @@ const postService = {
             }
         }
 
-        const data = await promise.json()
-
-        return data
+        return await promise.json()
     },
     likePost: async (postId) => {
         const promise = await fetch(`${url}like/${postId}`, {
@@ -30,11 +28,7 @@ const postService = {
 
         const data = await promise.json();
 
-        if (data.error) {
-            return false
-        } else {
-            return true
-        }
+        return !data.error
     },
     deletePostById: async (postId) => {
         const promise = await fetch(`${url}${postId}`, {
@@ -43,12 +37,8 @@ const postService = {
                 'Authorization': `Bearer ${getCookie("x-auth-token")}`
             }
         })
-
-        if (promise.status === 204) {
-            return true
-        } else {
-            return false
-        }
+        
+        return promise.status === 204
     },
     getRecent: async () => {
         const promise = await fetch(`${url}recent`, {
@@ -61,9 +51,7 @@ const postService = {
             return []
         }
 
-        const data = await promise.json()
-
-        return data
+        return await promise.json()
     }
 }
 
