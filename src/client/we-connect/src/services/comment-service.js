@@ -15,9 +15,7 @@ const commentService = {
             }
         })
 
-        const data = await promise.json()
-
-        return data
+        return await promise.json()
      }
 }
 
